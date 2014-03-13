@@ -4,7 +4,7 @@
 <p class="p2">Yleisiä linkkejä</p>
 <ul class="ul1">
   <li class="li3"><a href="https://github.com/teesalmi/MafiaTools"><span class="s1">Työn repositorio</span></a></li>
-  <li class="li3"><a href="https://github.com/teesalmi/MafiaTools/blob/master/doc/Dokumentaatio.pdf"><span class="s1">Työn dokumentaatio</span></a></li>
+  <li class="li3"><a href="https://raw.github.com/teesalmi/MafiaTools/master/doc/Dokumentaatio.pdf"><span class="s1">Työn dokumentaatio</span></a></li>
   <li class="li4"><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/"><span class="s1">Työn testisivu</span></a></li>
 </ul>
 <p class="p5"><br></p>
