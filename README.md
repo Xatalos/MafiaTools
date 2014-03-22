@@ -6,6 +6,9 @@
   <li class="li3"><a href="https://github.com/teesalmi/MafiaTools"><span class="s1">Työn repositorio</span></a></li>
   <li class="li3"><a href="https://raw.github.com/teesalmi/MafiaTools/master/doc/Dokumentaatio.pdf"><span class="s1">Työn dokumentaatio</span></a></li>
   <li class="li4"><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/"><span class="s1">Työn testisivu</span></a></li>
+        <li><a href="http://t-teesalmi.users.cs.helsinki.fi/ConnectionTest">ConnectionTest</a></li>
+      <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/index.html">HTML-demosivusto</a></li>
+      <li><a href="http://t-teesalmi.users.cs.helsinki.fi/Tietokantasovellus/Listaustesti">Listaustesti</a></li>
 </ul>
 <p class="p5"><br></p>
 <h2 style="margin: 0.0px 0.0px 11.0px 0.0px; font: 13.0px Times"><b>Työn aihe</b></h2>
