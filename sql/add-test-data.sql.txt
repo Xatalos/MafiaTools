@@ -1,0 +1,32 @@
+INSERT INTO username (Name, Password)
+VALUES (’admin’, ’admin’);
+
+INSERT INTO game (GameName, Username)
+VALUES (’Insane Mafia LXXVI’, ’admin’);
+
+INSERT INTO game (GameName, Username)
+VALUES (’Insane Mafia LXXVI’, ’admin’);
+
+INSERT INTO game (GameName, Username)
+VALUES (’Insane Mafia LXXVII’, ’admin’);
+
+INSERT INTO game (GameName, Username)
+VALUES (’Insane Mafia LXXVIII’, ’admin’);
+
+INSERT INTO player (PlayerName, Meta, Username)
+VALUES (’Xatalos’, ’???’, ’admin’);
+
+INSERT INTO player (PlayerName, Meta, Username)
+VALUES (’gonzaw’, ’???’, ’admin’);
+
+INSERT INTO player (PlayerName, Meta, Username)
+VALUES (’marvellosity’, ’More active and involved as town, less hesitant as Mafia’, ’admin’);
+
+INSERT INTO playeringame (GameID, PlayerID, Points, Notes)
+VALUES (1, 1, ’Xatalos’, 10, ’Confirmed town’);
+
+INSERT INTO playeringame (GameID, PlayerID, Points, Notes)
+VALUES (2, 2, ’gonzaw’, -10, ’Confirmed Mafia’);
+
+INSERT INTO playeringame (GameID, PlayerID, Points, Notes)
+VALUES (3, 3, ’marvellosity’, 7, ’Probably town, very active and involved’);
