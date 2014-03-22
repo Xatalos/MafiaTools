@@ -1,2 +1,3 @@
 /dist/
 /web/META-INF/context.xml
+/build/web/META-INF/context.xml
