@@ -12,6 +12,10 @@
         <servlet-name>TestiServlet</servlet-name>
         <servlet-class>TestiServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListaServlet</servlet-name>
+        <servlet-class>Servlets.ListaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>TestiServlet</servlet-name>
         <url-pattern>/TestiServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaServlet</servlet-name>
+        <url-pattern>/ListaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

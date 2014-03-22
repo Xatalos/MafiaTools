@@ -2,27 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 /**
  *
  * @author Teemu
  */
-public class YhteydenTestaaminen extends HttpServlet {
+public class ListaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -34,35 +29,30 @@ public class YhteydenTestaaminen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    //HttpServlet-luokan perivään servlettiin menevä metodi:
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection yhteys = Tietokanta.getYhteys(); //Haetaan tietokantaluokalta yhteysolio
-        PreparedStatement kysely;
-        ResultSet tulokset;
+        List<String> asiat = new ArrayList<String>();
+        asiat.add("Kirahvi");
+        asiat.add("Trumpetti");
+        asiat.add("Jeesus");
+        asiat.add("Parta");
+
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        response.setContentType("text/plain;charset=UTF-8");
-
         try {
-            String sql = "SELECT 1+1 as two";
-            kysely = yhteys.prepareStatement(sql);
-            tulokset = kysely.executeQuery();
-            if (tulokset.next()) {
-                int kakkonen = tulokset.getInt("two");
-                out.println("Tulos: " + kakkonen
-              
-                "); 
-    } else {
-      out.println("Virhe!");
+            out.println("<html>");
+            out.println("<head><title>Servlet TestiServlet</title></head>");
+            out.println("<body>");
+            out.println("<ul>");
+            for (String asia : asiat) {
+                out.println("<li>" + asia + "</li>");
             }
-        } catch (Exception e) {
-            out.println("Virhe: " + e.getMessage()
-        
-        "); 
-  }
-
-  tulokset.close();
-        kysely.close();
+            out.println("</ul>");
+            out.println("</body>");
+            out.println("</html>");
+        } finally {
+            out.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
