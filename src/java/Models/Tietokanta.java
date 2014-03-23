@@ -2,6 +2,8 @@ package Models;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -12,13 +14,35 @@ import javax.sql.DataSource;
  * @author Teemu
  */
 public class Tietokanta {
+    
+    private InitialContext cxt;
+    private static DataSource connectionPool;
+
+    public Tietokanta() {
+        try {
+            this.cxt = new InitialContext();
+        } catch (NamingException ex) {
+            Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.connectionPool = (DataSource) cxt.lookup("java:/comp/env/jdbc/teesalmi");
+        } catch (NamingException ex) {
+            Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 
     public static Connection getYhteys() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return connectionPool.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
-
-    //Haetaan context-xml-tiedostosta tietokannan yhteystiedot
-//HUOM! Tämä esimerkki ei toimi sellaisenaan ilman Tomcat-palvelinta!
-//    InitialContext cxt = new InitialContext();
-//    DataSource yhteysVarasto = (DataSource) cxt.lookup("java:/comp/env/jdbc/tietokanta");
+    
+    public void closeYhteys() {
+//        try { yhteys.close(); } catch (Exception e) {  }
+    }
 }

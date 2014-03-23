@@ -34,7 +34,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListaServlet</servlet-name>
-        <url-pattern>http://t-teesalmi.users.cs.helsinki.fi/Tietokantasovellus/Listaustesti</url-pattern>
+        <url-pattern>/Listaustesti</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>YhteydenTestaus</servlet-name>
