@@ -16,6 +16,10 @@
         <servlet-name>ListaServlet</servlet-name>
         <servlet-class>Servlets.ListaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>YhteydenTestaus</servlet-name>
+        <servlet-class>Servlets.YhteydenTestaus</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -30,7 +34,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListaServlet</servlet-name>
-        <url-pattern>/ListaServlet</url-pattern>
+        <url-pattern>http://t-teesalmi.users.cs.helsinki.fi/Tietokantasovellus/Listaustesti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>YhteydenTestaus</servlet-name>
+        <url-pattern>/YhteydenTestaus</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
