@@ -15,7 +15,7 @@ CREATE TABLE player
 (
 PlayerID SERIAL PRIMARY KEY,
 PlayerName text NOT NULL,
-Meta text DEFAULT ’???’,
+Meta text,
 Username text NOT NULL REFERENCES username(Name)
 );
 

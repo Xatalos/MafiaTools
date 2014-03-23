@@ -43,9 +43,9 @@ public class User {
         this.Password = Password;
     }
 
-    public static List<User> getKayttajat() {
+    public static List<User> getUsers() {
         try {
-            String sql = "SELECT id, tunnus, salasana from kayttajat";
+            String sql = "SELECT Name from username";
             Connection yhteys = Tietokanta.getYhteys();
             PreparedStatement kysely = yhteys.prepareStatement(sql);
             ResultSet tulokset = kysely.executeQuery();

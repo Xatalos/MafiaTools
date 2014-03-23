@@ -4,6 +4,7 @@
  */
 package Servlets;
 
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -32,10 +33,14 @@ public class ListaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> asiat = new ArrayList<String>();
+        List<User> users = User.getUsers();
         asiat.add("Kirahvi");
         asiat.add("Trumpetti");
         asiat.add("Jeesus");
         asiat.add("Parta");
+        for (User user : users) {
+            asiat.add("<li>" + user.getName() + "</li>");
+        }
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();

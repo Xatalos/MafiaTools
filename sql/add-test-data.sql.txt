@@ -1,32 +1,31 @@
-INSERT INTO username (Name, Password)
-VALUES (’admin’, ’admin’);
+INSERT INTO username VALUES ('testi', 'testi');
 
 INSERT INTO game (GameName, Username)
-VALUES (’Insane Mafia LXXVI’, ’admin’);
+VALUES ('Insane Mafia LXXVI', 'testi');
 
 INSERT INTO game (GameName, Username)
-VALUES (’Insane Mafia LXXVI’, ’admin’);
+VALUES ('Insane Mafia LXXVI', 'testi');
 
 INSERT INTO game (GameName, Username)
-VALUES (’Insane Mafia LXXVII’, ’admin’);
+VALUES ('Insane Mafia LXXVII', 'testi');
 
 INSERT INTO game (GameName, Username)
-VALUES (’Insane Mafia LXXVIII’, ’admin’);
+VALUES ('Insane Mafia LXXVIII', 'testi');
 
 INSERT INTO player (PlayerName, Meta, Username)
-VALUES (’Xatalos’, ’???’, ’admin’);
+VALUES ('Xatalos', '???', 'testi');
 
 INSERT INTO player (PlayerName, Meta, Username)
-VALUES (’gonzaw’, ’???’, ’admin’);
+VALUES ('gonzaw', '???', 'testi');
 
 INSERT INTO player (PlayerName, Meta, Username)
-VALUES (’marvellosity’, ’More active and involved as town, less hesitant as Mafia’, ’admin’);
+VALUES (’marvellosity', 'More active and involved as town, less hesitant as Mafia', 'testi');
 
 INSERT INTO playeringame (GameID, PlayerID, Points, Notes)
-VALUES (1, 1, ’Xatalos’, 10, ’Confirmed town’);
+VALUES (1, 1, 'Xatalos', 10, 'Confirmed town');
 
 INSERT INTO playeringame (GameID, PlayerID, Points, Notes)
-VALUES (2, 2, ’gonzaw’, -10, ’Confirmed Mafia’);
+VALUES (2, 2, 'gonzaw', -10, 'Confirmed Mafia');
 
 INSERT INTO playeringame (GameID, PlayerID, Points, Notes)
-VALUES (3, 3, ’marvellosity’, 7, ’Probably town, very active and involved’);
+VALUES (3, 3, 'marvellosity', 7, 'Probably town, very active and involved');
