@@ -1,6 +1,7 @@
 CREATE TABLE username
 (
-Name text PRIMARY KEY,
+UserID SERIAL PRIMARY KEY,
+Name text UNIQUE NOT NULL,
 Password text NOT NULL
 );
 
@@ -8,7 +9,7 @@ CREATE TABLE game
 (
 GameID SERIAL PRIMARY KEY,
 GameName text NOT NULL,
-Username text NOT NULL REFERENCES username(Name)
+UserID integer NOT NULL REFERENCES username(UserID)
 );
 
 CREATE TABLE player
@@ -16,21 +17,14 @@ CREATE TABLE player
 PlayerID SERIAL PRIMARY KEY,
 PlayerName text NOT NULL,
 Meta text,
-Username text NOT NULL REFERENCES username(Name)
+UserID integer NOT NULL REFERENCES username(UserID)
 );
 
 CREATE TABLE participant
 (
 GameID integer NOT NULL REFERENCES game(GameID),
 PlayerID integer NOT NULL REFERENCES player(PlayerID),
+Points integer,
+Notes text,
 CONSTRAINT ParticipantID PRIMARY KEY (GameID, PlayerID)
-);
-
-CREATE TABLE playeringame
-(
-PlayerInGameID SERIAL PRIMARY KEY,
-GameID integer NOT NULL REFERENCES game(GameID),
-PlayerID integer NOT NULL REFERENCES player(PlayerID),
-Points integer DEFAULT 0,
-Notes text
 );
