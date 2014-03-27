@@ -23,8 +23,8 @@ public class User {
         this.Password = Password;
     }
 
-    private User() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User() {
+        
     }
 
     public String getName() {
@@ -50,7 +50,7 @@ public class User {
             PreparedStatement kysely = yhteys.prepareStatement(sql);
             ResultSet tulokset = kysely.executeQuery();
 
-            ArrayList<User> kayttajat = new ArrayList<User>();
+            List<User> kayttajat = new ArrayList<User>();
             while (tulokset.next()) {
                 try {
                     //Luodaan tuloksia vastaava olio ja palautetaan olio:

@@ -15,10 +15,11 @@ import javax.sql.DataSource;
  */
 public class Tietokanta {
     
-    private InitialContext cxt;
+    private static InitialContext cxt;
     private static DataSource connectionPool;
+    private static Tietokanta tietokanta;
 
-    public Tietokanta() {
+    private Tietokanta() {
         try {
             this.cxt = new InitialContext();
         } catch (NamingException ex) {
@@ -35,6 +36,9 @@ public class Tietokanta {
 
     public static Connection getYhteys() {
         try {
+            if (tietokanta == null){
+                tietokanta = new Tietokanta();
+            }
             return connectionPool.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
