@@ -38,19 +38,27 @@ public class ListaServlet extends HttpServlet {
         asiat.add("Trumpetti");
         asiat.add("Jeesus");
         asiat.add("Parta");
-        for (User user : users) {
-            asiat.add("<li>" + user.getName() + "</li>");
-        }
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+
+        if (users == null) {
+            out.println("<h1>rikki</h1>");
+        } else {
+            for (User user : users) {
+                asiat.add("<li>" + user.getName() + "</li>");
+            }
+        }
+
+
+
         try {
             out.println("<html>");
             out.println("<head><title>Servlet TestiServlet</title></head>");
             out.println("<body>");
             out.println("<ul>");
             for (String asia : asiat) {
-                out.println("<li>" + asia + "</li>");
+                out.println(asia);
             }
             out.println("</ul>");
             out.println("</body>");

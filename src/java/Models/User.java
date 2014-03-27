@@ -45,7 +45,7 @@ public class User {
 
     public static List<User> getUsers() {
         try {
-            String sql = "SELECT Name from username";
+            String sql = "SELECT name from username;";
             Connection yhteys = Tietokanta.getYhteys();
             PreparedStatement kysely = yhteys.prepareStatement(sql);
             ResultSet tulokset = kysely.executeQuery();
@@ -55,8 +55,7 @@ public class User {
                 try {
                     //Luodaan tuloksia vastaava olio ja palautetaan olio:
                     User user = new User();
-                    user.setName(tulokset.getString("tunnus"));
-                    user.setPassword(tulokset.getString("salasana"));
+                    user.setName(tulokset.getString("name"));
 
                     kayttajat.add(user);
                 } catch (SQLException ex) {
@@ -80,7 +79,8 @@ public class User {
             return kayttajat;
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException("userssissa ongelmia");
         }
-        return null;
+        
     }
 }

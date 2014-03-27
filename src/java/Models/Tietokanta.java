@@ -32,8 +32,6 @@ public class Tietokanta {
         }
     }
     
-    
-
     public static Connection getYhteys() {
         try {
             if (tietokanta == null){
