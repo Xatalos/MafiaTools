@@ -4,11 +4,9 @@
  */
 package Servlets;
 
-import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Teemu
  */
-public class ListaServlet extends BaseServlet {
+public class BaseServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,40 +30,31 @@ public class ListaServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<String> asiat = new ArrayList<String>();
-        List<User> users = User.getUsers();
-        asiat.add("Kirahvi");
-        asiat.add("Trumpetti");
-        asiat.add("Jeesus");
-        asiat.add("Parta");
-
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        if (users == null) {
-            out.println("<h1>rikki</h1>");
-        } else {
-            for (User user : users) {
-                asiat.add("<li>" + user.getName() + "</li>");
-            }
-        }
-
-
-
         try {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
             out.println("<html>");
-            out.println("<head><title>Servlet TestiServlet</title></head>");
+            out.println("<head>");
+            out.println("<title>Servlet BaseServlet</title>");
+            out.println("</head>");
             out.println("<body>");
-            out.println("<ul>");
-            for (String asia : asiat) {
-                out.println(asia);
-            }
-            out.println("</ul>");
+            out.println("<h1>Servlet BaseServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {
             out.close();
         }
+    }
+
+    protected void showJSP(String JSPaddress, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher(JSPaddress);
+
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

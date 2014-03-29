@@ -28,12 +28,12 @@ public class User {
     public User() {
     }
 
-//    public boolean removeUser() throws Exception {
+//    public boolean removeUser(id) throws Exception {
 //        Connection connection = null;
 //        PreparedStatement query = null;
 //
 //        try {
-//            String sql = "DELETE FROM kissat where id = ?";
+//            String sql = "DELETE FROM username where UserID = id";
 //            connection = Database.getConnection();
 //            query = connection.getKysely(sql);
 //            query.setInteger(1, id);

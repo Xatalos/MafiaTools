@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Teemu
  */
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -27,23 +27,19 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+
+        /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
+        if ("testi".equals(name) && "testi".equals(password)) {
+            /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
+            response.sendRedirect("kissalista");
+        } else {
+            /* Väärän tunnuksen syöttänyt saa eteensä kirjautumislomakkeen.
+             * Tässä käytetään omassa kirjastotiedostossa määriteltyä näkymännäyttöfunktioita */
+            showJSP("index.jsp", request, response);
         }
     }
 
