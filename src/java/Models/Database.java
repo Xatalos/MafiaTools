@@ -13,38 +13,34 @@ import javax.sql.DataSource;
  *
  * @author Teemu
  */
-public class Tietokanta {
+public class Database {
     
     private static InitialContext cxt;
     private static DataSource connectionPool;
-    private static Tietokanta tietokanta;
+    private static Database database;
 
-    private Tietokanta() {
+    private Database() {
         try {
             this.cxt = new InitialContext();
         } catch (NamingException ex) {
-            Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             this.connectionPool = (DataSource) cxt.lookup("java:/comp/env/jdbc/teesalmi");
         } catch (NamingException ex) {
-            Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static Connection getYhteys() {
+    public static Connection getConnection() {
         try {
-            if (tietokanta == null){
-                tietokanta = new Tietokanta();
+            if (database == null){
+                database = new Database();
             }
             return connectionPool.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(Tietokanta.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-    
-    public void closeYhteys() {
-//        try { yhteys.close(); } catch (Exception e) {  }
     }
 }
