@@ -8,4 +8,9 @@
 
 <t:base pageTitle="MafiaTools Login">
     <h1>Hello World!</h1>
+    
+    
+    
+    
+    Käyttäjänimi: <input type="text" name="username" value="${kayttaja}" />
 </t:base>

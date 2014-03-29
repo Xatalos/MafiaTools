@@ -27,23 +27,48 @@ public class LoginServlet extends BaseServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String password = request.getParameter("password");
         String name = request.getParameter("name");
+        String password = request.getParameter("password");
+
+        /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
+         * Näytetään pelkkä lomake */
+        if (name == null || !name.equals("")) {
+            showJSP("index.jsp", request, response);
+            return;
+        }
+
+        //Tarkistetaan että vaaditut kentät on täytetty:
+        if (name == null || !name.equals("")) {
+            setError("You didn't give a username!", request);
+            showJSP("index.jsp", request, response);
+            return;
+        }
+
+        /* Välitetään näkymille tieto siitä, mikä tunnus yritti kirjautumista */
+        request.setAttribute("Username", name);
+
+        if (password == null && !password.equals("")) {
+            setError("You didn't give a password!", request);
+            showJSP("index.jsp", request, response);
+            return;
+        }
 
         /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
-        if ("testi".equals(name) && "testi".equals(password)) {
+        if (name.equals("testi") && password.equals("testi")) {
             /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
-            response.sendRedirect("kissalista");
+            response.sendRedirect("????");
         } else {
-            /* Väärän tunnuksen syöttänyt saa eteensä kirjautumislomakkeen.
-             * Tässä käytetään omassa kirjastotiedostossa määriteltyä näkymännäyttöfunktioita */
+            /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.
+             * Tässä käytetään omalta yläluokalta perittyjä yleiskäyttöisiä metodeja.
+             */
+            setError("Try again! Your username or password was incorrect.", request);
             showJSP("index.jsp", request, response);
         }
     }
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.

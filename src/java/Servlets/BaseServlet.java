@@ -51,10 +51,15 @@ public class BaseServlet extends HttpServlet {
     protected void showJSP(String JSPaddress, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         RequestDispatcher dispatcher = request.getRequestDispatcher(JSPaddress);
 
         dispatcher.forward(request, response);
+    }
+
+    protected void setError(String error, HttpServletRequest request)
+            throws ServletException, IOException {
+        request.setAttribute("error message", error);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
