@@ -122,8 +122,9 @@ public class User {
         String sql = "SELECT userid, name, password from username where name = '" + username + "' AND password = '" + password + "'";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, "name");
-        query.setString(2, "password");
+        query.setString(1, "userid");
+        query.setString(2, "testi");
+        query.setString(3, "testi");
         ResultSet rs = query.executeQuery();
 
         //Alustetaan muuttuja, joka sisältää löydetyn käyttäjän

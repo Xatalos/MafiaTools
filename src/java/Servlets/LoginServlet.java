@@ -37,6 +37,9 @@ public class LoginServlet extends BaseServlet {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
 
+        System.out.println("Your user name is " + name);
+        System.out.println("Your password is " + password);
+
         /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
          * Näytetään pelkkä lomake */
         if (name == null || !name.equals("")) {
@@ -52,7 +55,7 @@ public class LoginServlet extends BaseServlet {
         }
 
         /* Välitetään näkymille tieto siitä, mikä tunnus yritti kirjautumista */
-        request.setAttribute("Username", name);
+        request.setAttribute("username", name);
 
         if (password == null && !password.equals("")) {
             setError("You didn't give a password!", request);
@@ -63,19 +66,20 @@ public class LoginServlet extends BaseServlet {
         /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
         if (name.equals("testi") && password.equals("testi")) {
             /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
             User user = new User();
+            user.setName(name);
+            user.setPassword(password);
             try {
-                user = User.getUser("testi", request.getParameter("testi"));
+                user = User.getUser(name, password);
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (user != null) {
-                //Tallennetaan istuntoon käyttäjäolio
                 session.setAttribute("loggedIn", user);
             }
-            response.sendRedirect("http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/games.html");
+            showJSP("games.jsp", request, response);
         } else {
             /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.
              * Tässä käytetään omalta yläluokalta perittyjä yleiskäyttöisiä metodeja.
