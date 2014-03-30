@@ -28,6 +28,30 @@
         <servlet-name>BaseServlet</servlet-name>
         <servlet-class>Servlets.BaseServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>Servlets.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddPlayerServlet</servlet-name>
+        <servlet-class>Servlets.AddPlayerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GamesServlet</servlet-name>
+        <servlet-class>Servlets.GamesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlayersServlet</servlet-name>
+        <servlet-class>Servlets.PlayersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GameServlet</servlet-name>
+        <servlet-class>Servlets.GameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PlayerServlet</servlet-name>
+        <servlet-class>Servlets.PlayerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -55,6 +79,30 @@
     <servlet-mapping>
         <servlet-name>BaseServlet</servlet-name>
         <url-pattern>/BaseServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddPlayerServlet</servlet-name>
+        <url-pattern>/AddPlayer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GamesServlet</servlet-name>
+        <url-pattern>/Games</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlayersServlet</servlet-name>
+        <url-pattern>/Players</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GameServlet</servlet-name>
+        <url-pattern>/Game</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlayerServlet</servlet-name>
+        <url-pattern>/Player</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

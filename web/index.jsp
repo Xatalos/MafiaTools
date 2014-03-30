@@ -34,7 +34,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-default">Log In</button>
-                    <a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/register.html"><button type="button" class="btn btn-default">Register</button></a>
+                    <a href="register.jsp"><button type="button" class="btn btn-default">Register</button></a>
                 </div>
             </div>
         </form>

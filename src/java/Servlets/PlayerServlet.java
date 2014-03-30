@@ -4,22 +4,18 @@
  */
 package Servlets;
 
-import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.catalina.Session;
 
 /**
  *
  * @author Teemu
  */
-public class BaseServlet extends HttpServlet {
+public class PlayerServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -40,43 +36,15 @@ public class BaseServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BaseServlet</title>");
+            out.println("<title>Servlet PlayerServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BaseServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PlayerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        } finally {
+        } finally {            
             out.close();
         }
-    }
-
-    protected void showJSP(String JSPaddress, HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(JSPaddress);
-
-        dispatcher.forward(request, response);
-    }
-
-    protected void setError(String error, HttpServletRequest request)
-            throws ServletException, IOException {
-        request.setAttribute("errorMessage", error);
-    }
-
-    protected boolean isLoggedIn(HttpSession session)
-            throws ServletException, IOException {
-        User loggedIn = (User) session.getAttribute("loggedIn");
-        if (loggedIn != null) {
-            return true;
-        }
-        return false;
-    }
-
-    protected void logOut(HttpSession session)
-            throws ServletException, IOException {
-        session.removeAttribute("loggedIn");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

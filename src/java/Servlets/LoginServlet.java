@@ -34,21 +34,12 @@ public class LoginServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String name = request.getParameter("name");
+        String name = request.getParameter("username");
         String password = request.getParameter("password");
-
-        System.out.println("Your user name is " + name);
-        System.out.println("Your password is " + password);
 
         /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
          * Näytetään pelkkä lomake */
-        if (name == null || !name.equals("")) {
-            showJSP("index.jsp", request, response);
-            return;
-        }
-
-        //Tarkistetaan että vaaditut kentät on täytetty:
-        if (name == null || !name.equals("")) {
+        if (name == null || name.equals("")) {
             setError("You didn't give a username!", request);
             showJSP("index.jsp", request, response);
             return;
@@ -57,7 +48,7 @@ public class LoginServlet extends BaseServlet {
         /* Välitetään näkymille tieto siitä, mikä tunnus yritti kirjautumista */
         request.setAttribute("username", name);
 
-        if (password == null && !password.equals("")) {
+        if (password == null || password.equals("")) {
             setError("You didn't give a password!", request);
             showJSP("index.jsp", request, response);
             return;
@@ -79,7 +70,7 @@ public class LoginServlet extends BaseServlet {
             if (user != null) {
                 session.setAttribute("loggedIn", user);
             }
-            showJSP("games.jsp", request, response);
+            response.sendRedirect("games.jsp");
         } else {
             /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.
              * Tässä käytetään omalta yläluokalta perittyjä yleiskäyttöisiä metodeja.

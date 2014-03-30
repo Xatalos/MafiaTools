@@ -21,8 +21,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <c:if test="${virheViesti != null}">
-            <div class="alert alert-danger">Virhe! ${virheViesti}</div>
+        <c:if test="${errorMessage != null}">
+            <div class="alert alert-danger">${errorMessage}</div>
         </c:if>
         <jsp:doBody/>
     </body>
