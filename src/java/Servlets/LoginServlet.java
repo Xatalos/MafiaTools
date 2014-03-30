@@ -4,12 +4,17 @@
  */
 package Servlets;
 
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -58,6 +63,18 @@ public class LoginServlet extends BaseServlet {
         /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
         if (name.equals("testi") && password.equals("testi")) {
             /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
+            HttpSession session = request.getSession();
+            User user = new User();
+            try {
+                user = User.getUser("testi", request.getParameter("testi"));
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (user != null) {
+                //Tallennetaan istuntoon käyttäjäolio
+                session.setAttribute("loggedIn", user);
+            }
             response.sendRedirect("????");
         } else {
             /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.

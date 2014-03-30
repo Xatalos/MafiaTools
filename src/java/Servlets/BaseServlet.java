@@ -4,6 +4,7 @@
  */
 package Servlets;
 
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.catalina.Session;
 
 /**
  *
@@ -60,6 +63,20 @@ public class BaseServlet extends HttpServlet {
     protected void setError(String error, HttpServletRequest request)
             throws ServletException, IOException {
         request.setAttribute("error message", error);
+    }
+
+    protected boolean isLoggedIn(User user, HttpSession session)
+            throws ServletException, IOException {
+        User loggedIn = (User) session.getAttribute("loggedIn");
+        if (loggedIn != null) {
+            return true;
+        }
+        return false;
+    }
+
+    protected void logOut(HttpSession session)
+            throws ServletException, IOException {
+        session.removeAttribute("loggedIn");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

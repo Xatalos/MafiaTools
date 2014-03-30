@@ -118,6 +118,51 @@ public class User {
 //            }
 //        }
 //    }
+    public static User getUser(String username, String password) throws SQLException {
+        String sql = "SELECT userid, name, password from username where name = '" + username + "' AND password = '" + password + "'";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setString(1, "name");
+        query.setString(2, "password");
+        ResultSet rs = query.executeQuery();
+
+        //Alustetaan muuttuja, joka sisältää löydetyn käyttäjän
+        User loggedIn = null;
+
+        //next-metodia on kutsuttava aina, kun käsitellään 
+        //vasta kannasta saatuja ResultSet-olioita.
+        //ResultSet on oletuksena ensimmäistä edeltävällä -1:llä rivillä.
+        //Kun sitä kutsuu ensimmäisen kerran siirtyy se ensimmäiselle riville 0.
+        //Samalla metodi myös palauttaa tiedon siitä onko seuraavaa riviä olemassa.
+        if (rs.next()) {
+            //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+            //ja asetetaan palautettava olio:
+            loggedIn = new User();
+            loggedIn.setID(rs.getInt(Integer.parseInt("id")));
+            loggedIn.setName(rs.getString("name"));
+            loggedIn.setPassword(rs.getString("password"));
+        }
+
+        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
+
+        //Suljetaan kaikki resurssit:
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+
+        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
+        return loggedIn;
+    }
+
     public static List<User> getUsers() {
         try {
             String sql = "SELECT name from username;";
@@ -158,7 +203,7 @@ public class User {
         }
 
     }
-    
+
     public int getID() {
         return id;
     }
@@ -178,7 +223,7 @@ public class User {
     public void setPassword(String Password) {
         this.Password = Password;
     }
-    
+
     public void setID(int id) {
         this.id = id;
     }
