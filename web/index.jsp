@@ -8,9 +8,8 @@
 
 <t:base pageTitle="MafiaTools Login">
     <div class="container">
-        Käyttäjänimi: <input type="text" name="username" value="${kayttaja}" />
         <h1>Log In</h1>
-        <form class="form-horizontal" action="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/games.html" method="POST">
+        <form class="form-horizontal" action="Login" method="POST">
             <div class="form-group">
                 <label for="inputEmail1" class="col-md-2 control-label">Username</label>
                 <div class="col-md-10">

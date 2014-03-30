@@ -65,7 +65,7 @@ public class BaseServlet extends HttpServlet {
         request.setAttribute("error message", error);
     }
 
-    protected boolean isLoggedIn(User user, HttpSession session)
+    protected boolean isLoggedIn(HttpSession session)
             throws ServletException, IOException {
         User loggedIn = (User) session.getAttribute("loggedIn");
         if (loggedIn != null) {

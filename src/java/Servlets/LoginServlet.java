@@ -75,7 +75,7 @@ public class LoginServlet extends BaseServlet {
                 //Tallennetaan istuntoon käyttäjäolio
                 session.setAttribute("loggedIn", user);
             }
-            response.sendRedirect("????");
+            response.sendRedirect("http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/games.html");
         } else {
             /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.
              * Tässä käytetään omalta yläluokalta perittyjä yleiskäyttöisiä metodeja.
