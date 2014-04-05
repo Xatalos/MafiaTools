@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Teemu
  */
 public class GamesServlet extends BaseServlet {
+    
+    // tämä logout-kohtaan?? logOut(session); (BaseServlet)
 
     /**
      * Processes requests for both HTTP

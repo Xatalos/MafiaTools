@@ -8,7 +8,7 @@
 
 <t:base pageTitle="MafiaTools Players">
     <ul class="nav nav-tabs">
-        <li><a href="games.jsp">Games</a></li>
+        <li><a href="Games">Games</a></li>
         <li class="active"><a href="#">Players</a></li>
         <li><a href="index.jsp">Log Out</a></li>
     </ul>
@@ -18,7 +18,7 @@
         <p>You have created 3 games and 3 players so far.</p>
         <p> </p>
         <h1>Players</h1>
-        <p><a href="player.jsp"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a></p>
+        <p><a href="Player"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a></p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -30,17 +30,17 @@
             <tbody>
                 <tr>
                     <td>Xatalos</td>
-                    <td><a href="player.jsp"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
+                    <td><a href="Player"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
                     <td><button type="button" class="btn btn-xs btn-default">Delete Player</button></td>
                 </tr>
                 <tr>
                     <td>gonzaw</td>
-                    <td><a href="player.jsp"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
+                    <td><a href="Player"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
                     <td><button type="button" class="btn btn-xs btn-default">Delete Player</button></td>
                 </tr>
                 <tr>
                     <td>marvellosity</td>
-                    <td><a href="player.jsp"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
+                    <td><a href="Player"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
                     <td><button type="button" class="btn btn-xs btn-default">Delete Player</button></td>
                 </tr>
             </tbody>

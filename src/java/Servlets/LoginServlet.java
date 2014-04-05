@@ -36,6 +36,7 @@ public class LoginServlet extends BaseServlet {
 
         String name = request.getParameter("username");
         String password = request.getParameter("password");
+        User user = null;
 
         /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
          * Näytetään pelkkä lomake */
@@ -53,14 +54,11 @@ public class LoginServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
             return;
         }
-
+        
         /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
         if (name.equals("testi") && password.equals("testi")) {
             /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
             HttpSession session = request.getSession(true);
-            User user = new User();
-            user.setName(name);
-            user.setPassword(password);
             try {
                 user = User.getUser(name, password);
             } catch (SQLException ex) {
@@ -69,14 +67,11 @@ public class LoginServlet extends BaseServlet {
 
             if (user != null) {
                 session.setAttribute("loggedIn", user);
+            } else {
+                setError("Try again! Your username or password was incorrect.", request);
+                showJSP("index.jsp", request, response);
             }
-            response.sendRedirect("games.jsp");
-        } else {
-            /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.
-             * Tässä käytetään omalta yläluokalta perittyjä yleiskäyttöisiä metodeja.
-             */
-            setError("Try again! Your username or password was incorrect.", request);
-            showJSP("index.jsp", request, response);
+            response.sendRedirect("Games");
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -19,21 +19,21 @@
             <tbody>
                 <tr>
                     <td>Xatalos</td>
-                    <td><a href="game.jsp"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
+                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
                 </tr>
                 <tr>
                     <td>gonzaw</td>
-                    <td><a href="game.jsp"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
+                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
                 </tr>
                 <tr>
                     <td>marvellosity</td>
-                    <td><a href="game.jsp"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
+                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
                 </tr>
             </tbody>
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a href="game.jsp"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+                <a href="Game"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
             </div>
         </div>
     </div>

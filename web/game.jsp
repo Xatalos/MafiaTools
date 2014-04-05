@@ -9,8 +9,8 @@
 <t:base pageTitle="MafiaTools Sample Game">
     <div class="container">
         <h1>Sample Game</h1>
-        <a href="addplayer.jsp"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
-        <a href="player.jsp"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a>
+        <a href="AddPlayer"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
+        <a href="Player"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -47,8 +47,8 @@
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a href="games.jsp"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
-                <a href="game.jsp"><button type="button" class="btn btn-xs btn-default">Save Changes</button></a>
+                <a href="Games"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+                <a href="Game"><button type="button" class="btn btn-xs btn-default">Save Changes</button></a>
             </div>
         </div>
     </div>

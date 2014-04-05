@@ -24,15 +24,6 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"> Remember Me
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-default">Log In</button>
                     <a href="register.jsp"><button type="button" class="btn btn-default">Register</button></a>
                 </div>

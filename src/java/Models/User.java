@@ -172,6 +172,17 @@ public class User {
         //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
         return loggedIn;
     }
+    
+    // tämä ei kai toimi?????
+    public static String getPassword(String username) throws SQLException {
+        String sql = "SELECT password from username where name = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setString(1, username);
+        ResultSet rs = query.executeQuery();
+
+        return rs.getString("password");
+    }
 
     public static List<User> getUsers() {
         try {

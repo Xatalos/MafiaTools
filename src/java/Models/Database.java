@@ -21,12 +21,12 @@ public class Database {
 
     private Database() {
         try {
-            this.cxt = new InitialContext();
+            cxt = new InitialContext();
         } catch (NamingException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            this.connectionPool = (DataSource) cxt.lookup("java:/comp/env/jdbc/teesalmi");
+            connectionPool = (DataSource) cxt.lookup("java:/comp/env/jdbc/teesalmi");
         } catch (NamingException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
