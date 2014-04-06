@@ -8,7 +8,7 @@
       <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/index.html">HTML-demosivusto</a></li>
       <li><a href="http://t-teesalmi.users.cs.helsinki.fi/ConnectionTest">ConnectionTest</a></li>
       <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/Listaustesti">Listaustesti</a></li>
-      <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/index.jsp">Sovelluksen kirjautumissivu</a></li>
+      <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/index.jsp">Sovelluksen kirjautumissivu</a> (CREATE GAME TOIMII LOKAALISTI, MUTTA JOSTAKIN IHMEEN SYYSTÄ EI USERSILLA, JOTEN KOKEILE SSH-TUNNELILLA!)</li>
 </ul>
 <p class="p5"><br></p>
 <h2 style="margin: 0.0px 0.0px 11.0px 0.0px; font: 13.0px Times"><b>Työn aihe</b></h2>
