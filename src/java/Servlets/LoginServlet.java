@@ -54,7 +54,7 @@ public class LoginServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
             return;
         }
-        
+
         /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
         if (name.equals("testi") && password.equals("testi")) {
             /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
@@ -72,6 +72,9 @@ public class LoginServlet extends BaseServlet {
                 showJSP("index.jsp", request, response);
             }
             response.sendRedirect("Games");
+        } else {
+            setError("Try again! Your username or password was incorrect.", request);
+            showJSP("index.jsp", request, response);
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
