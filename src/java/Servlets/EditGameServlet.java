@@ -9,9 +9,9 @@ import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Teemu
  */
-public class CreateGameServlet2 extends BaseServlet {
+public class EditGameServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -37,27 +37,26 @@ public class CreateGameServlet2 extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String name = request.getParameter("gamename");
-
-        if (name == null || name.equals("")) {
-            setError("You didn't give a name!", request);
-            showJSP("creategame.jsp", request, response);
-            return;
-        }
-        
+        String idString = request.getParameter("id");
+        int id = Integer.parseInt(idString);
         Game game = null;
-        
-        try {
-            game = Game.createGame(name);
-        } catch (NamingException ex) {
-            Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
+        HttpSession session = request.getSession();
+
+        if (!isLoggedIn(session)) {
+            showJSP("index.jsp", request, response);
+        } else {
+            try {
+                Game.renameGame(id, name);
+                game = Game.getGame(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("game", game);
+            showJSP("Game?id=${game.id}", request, response);
         }
-
-        response.sendRedirect("Games");
     }
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.

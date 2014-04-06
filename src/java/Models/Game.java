@@ -107,14 +107,15 @@ public class Game {
         ResultSet rs = query.executeQuery();
 
         Game game = null;
+        //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+        //ja asetetaan palautettava olio:
         if (rs.next()) {
-            //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
-            //ja asetetaan palautettava olio:
             game = new Game();
             game.setId(Integer.parseInt(rs.getString("gameid")));
             game.setName(rs.getString("gamename"));
             game.setUserID(Integer.parseInt(rs.getString("userid")));
         }
+
 
         //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
 
@@ -157,6 +158,28 @@ public class Game {
         }
     }
 
+    public static void renameGame(int id, String newName) throws SQLException {
+        String sql = "UPDATE game SET gamename = ? WHERE gameid = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setString(1, newName);
+        query.setInt(2, id);
+        ResultSet rs = query.executeQuery();
+
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+    }
+
     /**
      *
      * @throws NamingException
@@ -164,8 +187,8 @@ public class Game {
      */
     public static Game createGame(String name) throws NamingException, SQLException {
         String sql = "INSERT INTO game(gamename, userid) VALUES(?,?) RETURNING id";
-        Connection yhteys = Database.getConnection();
-        PreparedStatement query = yhteys.prepareStatement(sql);
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
 
         query.setString(1, name);
         query.setInt(2, 1);
@@ -186,7 +209,7 @@ public class Game {
         } catch (Exception e) {
         }
         try {
-            yhteys.close();
+            connection.close();
         } catch (Exception e) {
         }
 

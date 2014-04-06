@@ -37,6 +37,7 @@ public class DeleteGameServlet extends BaseServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String idString = request.getParameter("id");
+        String name = request.getParameter("name");
         int id = Integer.parseInt(idString);
 
         if (!isLoggedIn(session)) {
@@ -47,6 +48,7 @@ public class DeleteGameServlet extends BaseServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            setError("You deleted game id " + id, request);
             List<Game> games = Game.getGames();
             request.setAttribute("games", games);
             showJSP("games.jsp", request, response);

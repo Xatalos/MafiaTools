@@ -64,6 +64,18 @@
         <servlet-name>DeleteGameServlet</servlet-name>
         <servlet-class>Servlets.DeleteGameServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RenameGameServlet</servlet-name>
+        <servlet-class>Servlets.RenameGameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RenameGameServlet2</servlet-name>
+        <servlet-class>Servlets.RenameGameServlet2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditGameServlet</servlet-name>
+        <servlet-class>Servlets.EditGameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -127,6 +139,18 @@
     <servlet-mapping>
         <servlet-name>DeleteGameServlet</servlet-name>
         <url-pattern>/DeleteGame</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RenameGameServlet</servlet-name>
+        <url-pattern>/RenameGame</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RenameGameServlet2</servlet-name>
+        <url-pattern>/RenameGame2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditGameServlet</servlet-name>
+        <url-pattern>/EditGame</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
