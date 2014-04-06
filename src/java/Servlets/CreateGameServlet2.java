@@ -41,10 +41,11 @@ public class CreateGameServlet2 extends BaseServlet {
         if (name == null || name.equals("")) {
             setError("You didn't give a name!", request);
             showJSP("creategame.jsp", request, response);
-            return;
         }
         
-        Game game = null;
+        Game game = new Game();
+        game.setName(name);
+        game.setUserID(1);
         
         try {
             game = Game.createGame(name);
