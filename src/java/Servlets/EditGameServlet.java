@@ -52,7 +52,7 @@ public class EditGameServlet extends BaseServlet {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("game", game);
-            showJSP("Game?id=${game.id}", request, response);
+            showJSP("Game?id=" + id, request, response);
         }
     }
 

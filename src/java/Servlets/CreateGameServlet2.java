@@ -37,25 +37,24 @@ public class CreateGameServlet2 extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String name = request.getParameter("gamename");
+        Game game = new Game();
+        game.setName(name);
+        game.setUserID(1);
 
         if (name == null || name.equals("")) {
             setError("You didn't give a name!", request);
             showJSP("creategame.jsp", request, response);
-        }
-        
-        Game game = new Game();
-        game.setName(name);
-        game.setUserID(1);
-        
-        try {
-            game = Game.createGame(name);
-        } catch (NamingException ex) {
-            Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } else {
+            try {
+                game = Game.createGame(name);
+            } catch (NamingException ex) {
+                Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        response.sendRedirect("Games");
+            showJSP("Games", request, response);
+        }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
