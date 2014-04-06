@@ -105,10 +105,11 @@ public class Game {
         query.setString(1, Integer.toString(id));
         ResultSet rs = query.executeQuery();
 
-        Game game = new Game();
+        Game game = null;
         if (rs.next()) {
             //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
             //ja asetetaan palautettava olio:
+            game = new Game();
             game.setId(Integer.parseInt(rs.getString("gameid")));
             game.setName(rs.getString("gamename"));
             game.setUserID(Integer.parseInt(rs.getString("userid")));

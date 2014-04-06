@@ -42,7 +42,13 @@ public class GamesServlet extends BaseServlet {
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         }
-        
+        Game game = null;
+        try {
+            game = Game.getGame(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("onegame", game);
         List<Game> games = Game.getGames();
         request.setAttribute("games", games);
         showJSP("games.jsp", request, response);
