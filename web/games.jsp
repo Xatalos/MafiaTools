@@ -23,7 +23,6 @@
                 </tr>
             </thead>
             <tbody>
-                ${onegame}
                 <c:forEach var="game" items="${games}">
                     <tr>
                         <td>${game.name}</td>
