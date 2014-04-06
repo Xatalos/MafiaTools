@@ -13,7 +13,7 @@
         <p>You have created 3 games and 3 players so far.</p>
         <p> </p>
         <h1>Games</h1>
-        <p><a href="Game"><button type="button" class="btn btn-xs btn-default">Create New Game</button></a></p>
+        <p><a href="CreateGame"><button type="button" class="btn btn-xs btn-default">Create New Game</button></a></p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -27,7 +27,7 @@
                     <tr>
                         <td>${game.name}</td>
                         <td><a href="Game?id=${game.id}"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
-                        <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
+                        <td><a href="DeleteGame?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Delete Game</button></a></td>
                     </tr>
                 </c:forEach>
             </tbody>

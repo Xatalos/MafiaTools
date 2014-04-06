@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 
 /**
  *
  * @author Teemu
  */
 public class Game {
-    
+
     private int id;
     private String name;
     private int userid;
@@ -29,7 +30,7 @@ public class Game {
         this.userid = UserID;
     }
 
-    private Game() {
+    public Game() {
     }
 
     public int getId() {
@@ -55,7 +56,7 @@ public class Game {
     public void setUserID(int UserID) {
         this.userid = UserID;
     }
-    
+
     public static List<Game> getGames() {
         try {
             String sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
@@ -97,12 +98,12 @@ public class Game {
         }
 
     }
-    
+
     public static Game getGame(int id) throws SQLException {
         String sql = "SELECT gameid, gamename, userid from game where gameid = ?";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, Integer.toString(id));
+        query.setInt(1, id);
         ResultSet rs = query.executeQuery();
 
         Game game = null;
@@ -134,5 +135,62 @@ public class Game {
         //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
         return game;
     }
-    
+
+    public static void deleteGame(int id) throws SQLException {
+        String sql = "DELETE FROM game WHERE gameid = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setInt(1, id);
+        ResultSet rs = query.executeQuery();
+
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+    }
+
+    /**
+     *
+     * @throws NamingException
+     * @throws SQLException
+     */
+    public static Game createGame(String name) throws NamingException, SQLException {
+        String sql = "INSERT INTO game(gamename, userid) VALUES(?,?) RETURNING id";
+        Connection yhteys = Database.getConnection();
+        PreparedStatement query = yhteys.prepareStatement(sql);
+
+        query.setString(1, name);
+        query.setInt(2, 1);
+
+        ResultSet ids = query.executeQuery();
+        ids.next();
+
+        //Haetaan RETURNING-määreen palauttama id.
+        //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
+        int id = ids.getInt(1);
+
+        try {
+            ids.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return Game.getGame(id);
+
+    }
 }

@@ -5,7 +5,6 @@
 package Servlets;
 
 import Models.Game;
-import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Teemu
  */
-public class GameServlet extends BaseServlet {
+public class DeleteGameServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -34,32 +33,20 @@ public class GameServlet extends BaseServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String idString = request.getParameter("id");
+        int id = Integer.parseInt(idString);
+
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
-        }
-
-        String idParam = request.getParameter("id");
-        Game game = null;
-        int id = 1;
-        try {
-            id = Integer.parseInt(idParam);
-        } catch (Exception e) {
-        }
-        try {
-            game = Game.getGame(id);
-        } catch (SQLException ex) {
-            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (game != null) {
-            request.setAttribute("game", game);
-            showJSP("game.jsp", request, response);
         } else {
-            request.setAttribute("game", null);
-            setError("The game was not found!", request);
+            try {
+                Game.deleteGame(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             List<Game> games = Game.getGames();
             request.setAttribute("games", games);
             showJSP("games.jsp", request, response);

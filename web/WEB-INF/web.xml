@@ -52,6 +52,18 @@
         <servlet-name>PlayerServlet</servlet-name>
         <servlet-class>Servlets.PlayerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateGameServlet</servlet-name>
+        <servlet-class>Servlets.CreateGameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateGameServlet2</servlet-name>
+        <servlet-class>Servlets.CreateGameServlet2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteGameServlet</servlet-name>
+        <servlet-class>Servlets.DeleteGameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -103,6 +115,18 @@
     <servlet-mapping>
         <servlet-name>PlayerServlet</servlet-name>
         <url-pattern>/Player</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateGameServlet</servlet-name>
+        <url-pattern>/CreateGame</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateGameServlet2</servlet-name>
+        <url-pattern>/CreateGame2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteGameServlet</servlet-name>
+        <url-pattern>/DeleteGame</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

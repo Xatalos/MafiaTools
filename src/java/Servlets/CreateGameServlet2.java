@@ -9,9 +9,9 @@ import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Teemu
  */
-public class GameServlet extends BaseServlet {
+public class CreateGameServlet2 extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -36,37 +36,28 @@ public class GameServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        if (!isLoggedIn(session)) {
-            showJSP("index.jsp", request, response);
-        }
+        String name = request.getParameter("gamename");
 
-        String idParam = request.getParameter("id");
+        if (name == null || name.equals("")) {
+            setError("You didn't give a name!", request);
+            showJSP("creategame.jsp", request, response);
+            return;
+        }
+        
         Game game = null;
-        int id = 1;
+        
         try {
-            id = Integer.parseInt(idParam);
-        } catch (Exception e) {
-        }
-        try {
-            game = Game.getGame(id);
+            game = Game.createGame(name);
+        } catch (NamingException ex) {
+            Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (game != null) {
-            request.setAttribute("game", game);
-            showJSP("game.jsp", request, response);
-        } else {
-            request.setAttribute("game", null);
-            setError("The game was not found!", request);
-            List<Game> games = Game.getGames();
-            request.setAttribute("games", games);
-            showJSP("games.jsp", request, response);
-        }
+        response.sendRedirect("Game?id=${game.id}");
     }
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.
