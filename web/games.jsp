@@ -22,21 +22,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Insane Mafia LXXVI</td>
-                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
-                    <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
-                </tr>
-                <tr>
-                    <td>Insane Mafia LXXVII</td>
-                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
-                    <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
-                </tr>
-                <tr>
-                    <td>Insane Mafia LXXVIII</td>
-                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
-                    <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
-                </tr>
+            <c:forEach var="game" items="${games}">
+                <div class="game">${games.getName}</div>
+            </c:forEach>
+            <tr>
+                <td>Insane Mafia LXXVI</td>
+                <td><a href="Game"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
+                <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
+            </tr>
+            <tr>
+                <td>Insane Mafia LXXVII</td>
+                <td><a href="Game"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
+                <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
+            </tr>
+            <tr>
+                <td>Insane Mafia LXXVIII</td>
+                <td><a href="Game"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
+                <td><button type="button" class="btn btn-xs btn-default">Delete Game</button></td>
+            </tr>
             </tbody>
         </table>
     </div>

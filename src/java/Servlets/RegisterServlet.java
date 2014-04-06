@@ -4,12 +4,17 @@
  */
 package Servlets;
 
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,23 +32,46 @@ public class RegisterServlet extends BaseServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String name = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user = null;
+
+        /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
+         * Näytetään pelkkä lomake */
+        if (name == null || name.equals("")) {
+            setError("You didn't give a username!", request);
+            showJSP("index.jsp", request, response);
+            return;
+        }
+
+        /* Välitetään näkymille tieto siitä, mikä tunnus yritti kirjautumista */
+        request.setAttribute("username", name);
+
+        if (password == null || password.equals("")) {
+            setError("You didn't give a password!", request);
+            showJSP("index.jsp", request, response);
+            return;
+        }
+        
+        /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
+        if (name.equals("testi") && password.equals("testi")) {
+            /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
+            HttpSession session = request.getSession(true);
+            try {
+                user = User.getUser(name, password);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (user != null) {
+                session.setAttribute("loggedIn", user);
+            } else {
+                setError("Try again! Your username or password was incorrect.", request);
+                showJSP("index.jsp", request, response);
+            }
+            response.sendRedirect("Games");
         }
     }
 
