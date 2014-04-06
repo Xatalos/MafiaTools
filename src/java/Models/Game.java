@@ -185,7 +185,7 @@ public class Game {
      * @throws NamingException
      * @throws SQLException
      */
-    public static Game createGame(String name) throws NamingException, SQLException {
+    public static void createGame(String name) throws NamingException, SQLException {
         String sql = "INSERT INTO game(gamename, userid) VALUES(?,?) RETURNING gameid";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
@@ -213,7 +213,7 @@ public class Game {
         } catch (Exception e) {
         }
 
-        return Game.getGame(id);
+//        return Game.getGame(id);
 
     }
 }

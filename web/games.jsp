@@ -11,6 +11,7 @@
         <p> </p>
         <p>Hello Username!</p>
         <p>You have created 3 games and 3 players so far.</p>
+        <p>HUOM!!!! CREATE GAME TOIMII LOKAALISTI, MUTTA JOSTAKIN HÄMÄRÄSTÄ SYYSTÄ EI USERSILLA SUORAAN, JOTEN KOKEILE SSH-TUNNELIN KAUTTA SITÄ!!!</p>
         <p> </p>
         <h1>Games</h1>
         <p><a href="CreateGame"><button type="button" class="btn btn-xs btn-default">Create New Game</button></a></p>

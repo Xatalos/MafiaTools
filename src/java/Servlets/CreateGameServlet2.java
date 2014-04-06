@@ -46,14 +46,14 @@ public class CreateGameServlet2 extends BaseServlet {
             showJSP("creategame.jsp", request, response);
         } else {
             try {
-                game = Game.createGame(name);
+                Game.createGame(name);
             } catch (NamingException ex) {
                 Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            showJSP("Games", request, response);
+            response.sendRedirect("Games");
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
