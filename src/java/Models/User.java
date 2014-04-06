@@ -24,15 +24,15 @@ public class User {
     // eli passwordin paikalle tallennetaan hash ja kun tarkistetaan salasanaa, niin verrataan vain annetun salasanan muodostamaa hashia ja 
     // tietokannassa olevaa hashia...
 
-    private String id;
-    private String Name;
-    private String Password;
+    private int id;
+    private String name;
+    private String password;
     public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
-    public User(String id, String Name, String Password) {
+    public User(int id, String Name, String Password) {
         this.id = id;
-        this.Name = Name;
-        this.Password = Password;
+        this.name = Name;
+        this.password = Password;
     }
 
     public User() {
@@ -148,7 +148,7 @@ public class User {
             //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
             //ja asetetaan palautettava olio:
             loggedIn = new User();
-            loggedIn.setID(rs.getString("userid"));
+            loggedIn.setID(Integer.parseInt(rs.getString("userid")));
             loggedIn.setName(rs.getString("name"));
             loggedIn.setPassword(rs.getString("password"));
         }
@@ -225,27 +225,27 @@ public class User {
 
     }
 
-    public String getID() {
+    public int getID() {
         return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setName(String Name) {
-        this.Name = Name;
+        this.name = Name;
     }
 
     public void setPassword(String Password) {
-        this.Password = Password;
+        this.password = Password;
     }
 
-    public void setID(String id) {
+    public void setID(int id) {
         this.id = id;
     }
 

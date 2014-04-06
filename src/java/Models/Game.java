@@ -19,46 +19,46 @@ import java.util.logging.Logger;
  */
 public class Game {
     
-    private String id;
-    private String Name;
-    private String UserID;
+    private int id;
+    private String name;
+    private int userid;
 
-    public Game(String id, String Name, String UserID) {
+    public Game(int id, String Name, int UserID) {
         this.id = id;
-        this.Name = Name;
-        this.UserID = UserID;
+        this.name = Name;
+        this.userid = UserID;
     }
 
     private Game() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public String getUserID() {
-        return UserID;
+    public int getUserID() {
+        return userid;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public void setName(String Name) {
-        this.Name = Name;
+        this.name = Name;
     }
 
-    public void setUserID(String UserID) {
-        this.UserID = UserID;
+    public void setUserID(int UserID) {
+        this.userid = UserID;
     }
     
     public static List<Game> getGames() {
         try {
-            String sql = "SELECT gamename from game";
+            String sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
             Connection connection = Database.getConnection();
             PreparedStatement query = connection.prepareStatement(sql);
             ResultSet results = query.executeQuery();
@@ -68,7 +68,9 @@ public class Game {
                 try {
                     //Luodaan tuloksia vastaava olio ja palautetaan olio:
                     Game game = new Game();
+                    game.setId(Integer.parseInt(results.getString("gameid")));
                     game.setName(results.getString("gamename"));
+                    game.setUserID(Integer.parseInt(results.getString("userid")));
 
                     games.add(game);
                 } catch (SQLException ex) {
@@ -88,13 +90,48 @@ public class Game {
                 connection.close();
             } catch (Exception e) {
             }
-
             return games;
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException("problems at the server side");
         }
 
+    }
+    
+    public static Game getGame(int id) throws SQLException {
+        String sql = "SELECT gameid, gamename, userid from game where gameid = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setString(1, Integer.toString(id));
+        ResultSet rs = query.executeQuery();
+
+        Game game = new Game();
+        if (rs.next()) {
+            //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+            //ja asetetaan palautettava olio:
+            game.setId(Integer.parseInt(rs.getString("gameid")));
+            game.setName(rs.getString("gamename"));
+            game.setUserID(Integer.parseInt(rs.getString("userid")));
+        }
+
+        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
+
+        //Suljetaan kaikki resurssit:
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+
+        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
+        return game;
     }
     
 }

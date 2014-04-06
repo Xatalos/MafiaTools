@@ -9,6 +9,7 @@ import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpSession;
  */
 public class GamesServlet extends BaseServlet {
 
-    // tämä logout-kohtaan?? logOut(session); (BaseServlet)
+    // tämä logout-kohtaan?? logOut(session); (BaseServlet) (tosin ei kai välttämättä tarvitse)
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -38,12 +39,14 @@ public class GamesServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
-        if (isLoggedIn(session)) {
-            List<Game> games = Game.getGames();
-            request.setAttribute("games", games);
-            showJSP("games.jsp", request, response);
+        if (!isLoggedIn(session)) {
+            showJSP("index.jsp", request, response);
         }
+        
+        List<Game> games = Game.getGames();
+        request.setAttribute("games", games);
+        showJSP("games.jsp", request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
