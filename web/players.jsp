@@ -15,9 +15,7 @@
     </ul>
     <div class="container">
         <p> </p>
-        <p>Hello Username!</p>
-        <p>You have created 3 games and 3 players so far.</p>
-        <p> </p>
+        <p>Hello ${user.name}!</p>
         <h1>Players</h1>
         <p><a href="Player"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a></p>
         <table class="table table-striped">
