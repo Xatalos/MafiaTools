@@ -47,6 +47,7 @@ public class CreateGameServlet2 extends BaseServlet {
         } else {
             try {
                 Game.createGame(name);
+                
             } catch (NamingException ex) {
                 Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

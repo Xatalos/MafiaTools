@@ -4,6 +4,7 @@
  */
 package Servlets;
 
+import Models.Game;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,6 +72,8 @@ public class LoginServlet extends BaseServlet {
                 setError("Try again! Your username or password was incorrect.", request);
                 showJSP("index.jsp", request, response);
             }
+            session.setAttribute("gamecount", Game.countGames(user));
+            session.setAttribute("user", user);
             response.sendRedirect("Games");
         } else {
             setError("Try again! Your username or password was incorrect.", request);
