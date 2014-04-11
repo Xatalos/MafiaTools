@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author Teemu
+ * A servlet for showing all the players created by a specific user
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class PlayersServlet extends BaseServlet {
 

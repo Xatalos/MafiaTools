@@ -19,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for viewing a single Mafia game
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class GameServlet extends BaseServlet {
 
@@ -60,7 +61,12 @@ public class GameServlet extends BaseServlet {
         } else {
             request.setAttribute("game", null);
             setError("The game was not found!", request);
-            List<Game> games = Game.getGames();
+            List<Game> games = null;
+            try {
+                games = Game.getGames(User.getUser("testi", "testi"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.setAttribute("games", games);
             showJSP("games.jsp", request, response);
         }

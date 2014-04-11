@@ -5,8 +5,9 @@
 package Models;
 
 /**
- *
- * @author Teemu
+ * A model for a Mafia player
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class Player {
     

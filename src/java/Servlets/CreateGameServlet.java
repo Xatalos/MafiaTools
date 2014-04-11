@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for showing the JSP page for creating a Mafia game
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class CreateGameServlet extends BaseServlet {
 

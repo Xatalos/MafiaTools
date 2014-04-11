@@ -17,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for creating a new user
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class RegisterServlet extends BaseServlet {
 

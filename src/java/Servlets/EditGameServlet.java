@@ -19,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * A servlet for editing information about a Mafia game
  *
- * @author Teemu
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class EditGameServlet extends BaseServlet {
 
@@ -46,7 +47,9 @@ public class EditGameServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Game.renameGame(id, name);
+                if (!name.equals("") && !name.isEmpty()) {
+                    Game.renameGame(id, name);
+                }
                 game = Game.getGame(id);
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);

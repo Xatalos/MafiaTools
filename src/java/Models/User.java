@@ -16,8 +16,9 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 /**
- *
- * @author Teemu
+ * A model for a user of the database
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class User {
     
@@ -128,6 +129,17 @@ public class User {
 //            }
 //        }
 //    }
+    
+    /**
+     * Fetches a specific user from the database
+     *
+     * @param username the name of the user
+     * @param password the password of the user
+     * 
+     * @throws SQLException if an SQL error occurs
+     * 
+     * @return loggedIn the specified user
+     */
     public static User getUser(String username, String password) throws SQLException {
         String sql = "SELECT userid, name, password from username where name = ? and password = ?";
         Connection connection = Database.getConnection();
@@ -173,17 +185,11 @@ public class User {
         return loggedIn;
     }
     
-    // tämä ei kai toimi?????
-    public static String getPassword(String username) throws SQLException {
-        String sql = "SELECT password from username where name = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, username);
-        ResultSet rs = query.executeQuery();
-
-        return rs.getString("password");
-    }
-
+     /**
+     * Fetches all the users from the database
+     *
+     * @return users all users from the database
+     */
     public static List<User> getUsers() {
         try {
             String sql = "SELECT name from username;";

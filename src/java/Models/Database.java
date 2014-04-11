@@ -4,21 +4,24 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- *
- * @author Teemu
+ * This model is used to connect to the SQL database
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class Database {
     
     private static InitialContext cxt;
     private static DataSource connectionPool;
     private static Database database;
-
+    
+     /**
+     * Creates the initial connection pool to the database
+     */
     private Database() {
         try {
             cxt = new InitialContext();
@@ -32,6 +35,9 @@ public class Database {
         }
     }
     
+    /**
+     * Gets a single connection to the database
+     */
     public static Connection getConnection() {
         try {
             if (database == null){

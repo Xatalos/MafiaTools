@@ -5,6 +5,7 @@
 package Servlets;
 
 import Models.Game;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for deleting a Mafia game
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class DeleteGameServlet extends BaseServlet {
 
@@ -48,8 +50,12 @@ public class DeleteGameServlet extends BaseServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            setError("You deleted game id " + id, request);
-            List<Game> games = Game.getGames();
+            List<Game> games = null;
+            try {
+                games = Game.getGames(User.getUser("testi", "testi"));
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.setAttribute("games", games);
             showJSP("games.jsp", request, response);
         }

@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for logging in a specific user
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class LoginServlet extends BaseServlet {
 

@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#">Games</a></li>
         <li><a href="Players">Players</a></li>
-        <li><a href="index.jsp">Log Out</a></li>
+        <li><a href="Logout">Log Out</a></li>
     </ul>
     <div class="container">
         <p> </p>

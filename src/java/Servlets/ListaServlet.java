@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author Teemu
+ * A servlet for testing the database connection
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class ListaServlet extends BaseServlet {
 

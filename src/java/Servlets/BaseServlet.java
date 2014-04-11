@@ -16,8 +16,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.Session;
 
 /**
- *
- * @author Teemu
+ * Every other servlet is based on this servlet
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class BaseServlet extends HttpServlet {
 
@@ -50,7 +51,16 @@ public class BaseServlet extends HttpServlet {
             out.close();
         }
     }
-
+    
+    /**
+     * Shows the specified JSP page
+     *
+     * @param JSPaddress address of the JSP page
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void showJSP(String JSPaddress, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -59,12 +69,23 @@ public class BaseServlet extends HttpServlet {
 
         dispatcher.forward(request, response);
     }
-
+    
+    /**
+     * Sets the specified error to the current session
+     *
+     * @param error a description of the error
+     * @param request servlet request
+     */
     protected void setError(String error, HttpServletRequest request)
             throws ServletException, IOException {
         request.setAttribute("errorMessage", error);
     }
-
+    
+    /**
+     * Checks if the user is currently logged in
+     *
+     * @param session the current HTTP session
+     */
     protected boolean isLoggedIn(HttpSession session)
             throws ServletException, IOException {
         User loggedIn = (User) session.getAttribute("loggedIn");
@@ -73,7 +94,12 @@ public class BaseServlet extends HttpServlet {
         }
         return false;
     }
-
+    
+    /**
+     * Erases the user's status of being logged in
+     *
+     * @param session the current HTTP session
+     */
     protected void logOut(HttpSession session)
             throws ServletException, IOException {
         session.removeAttribute("loggedIn");

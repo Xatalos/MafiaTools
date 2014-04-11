@@ -5,8 +5,9 @@
 package Models;
 
 /**
- *
- * @author Teemu
+ * A model for a participant of a Mafia game (a single player in a single game)
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class Participant {
     

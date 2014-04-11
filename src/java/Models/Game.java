@@ -15,8 +15,9 @@ import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 /**
- *
- * @author Teemu
+ * A model for a game of Mafia
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class Game {
 
@@ -99,8 +100,15 @@ public class Game {
             throw new IllegalStateException("problems at the server side");
         }
     }
-
-    public static List<Game> getGames() {
+    
+    /**
+     * Fetches all the games created by a specified user from the database
+     *
+     * @param user the specified user
+     * 
+     * @return games all the games created by a specified user
+     */
+    public static List<Game> getGames(User user) {
         try {
             String sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
             Connection connection = Database.getConnection();
@@ -141,7 +149,16 @@ public class Game {
         }
 
     }
-
+    
+    /**
+     * Fetches a specified game from the database
+     *
+     * @param id the identification number of the game
+     * 
+     * @throws SQLException if an SQL error occurs
+     * 
+     * @return game the specified game
+     */
     public static Game getGame(int id) throws SQLException {
         String sql = "SELECT gameid, gamename, userid from game where gameid = ?";
         Connection connection = Database.getConnection();
@@ -179,7 +196,14 @@ public class Game {
         //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
         return game;
     }
-
+    
+    /**
+     * Removes a specified game from the database
+     *
+     * @param id the identification number of the game
+     * 
+     * @throws SQLException if an SQL error occurs
+     */
     public static void deleteGame(int id) throws SQLException {
         String sql = "DELETE FROM game WHERE gameid = ?";
         Connection connection = Database.getConnection();
@@ -200,7 +224,15 @@ public class Game {
         } catch (Exception e) {
         }
     }
-
+    
+    /**
+     * Renames a specified game from the database
+     *
+     * @param id the identification number of the game
+     * @param newName the new name of the game
+     * 
+     * @throws SQLException if an SQL error occurs
+     */
     public static void renameGame(int id, String newName) throws SQLException {
         String sql = "UPDATE game SET gamename = ? WHERE gameid = ?";
         Connection connection = Database.getConnection();
@@ -224,9 +256,12 @@ public class Game {
     }
 
     /**
+     * Inserts a new game to the database
      *
-     * @throws NamingException
-     * @throws SQLException
+     * @param name the name of the new game
+     * 
+     * @throws SQLException if an SQL error occurs
+     * @throws namingException if a naming error occurs
      */
     public static void createGame(String name) throws NamingException, SQLException {
         String sql = "INSERT INTO game(gamename, userid) VALUES(?,?) RETURNING gameid";

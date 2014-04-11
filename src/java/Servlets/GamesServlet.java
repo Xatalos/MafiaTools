@@ -20,8 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for showing all the games created by a specific user
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class GamesServlet extends BaseServlet {
 
@@ -43,7 +44,12 @@ public class GamesServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         }
 
-        List<Game> games = Game.getGames();
+        List<Game> games = null;
+        try {
+            games = Game.getGames(User.getUser("testi", "testi"));
+        } catch (SQLException ex) {
+            Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.setAttribute("games", games);
         showJSP("games.jsp", request, response);
 

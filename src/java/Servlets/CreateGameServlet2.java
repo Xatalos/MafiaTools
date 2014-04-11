@@ -19,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for creating a Mafia game
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class CreateGameServlet2 extends BaseServlet {
 

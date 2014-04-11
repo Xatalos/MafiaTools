@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * A servlet for showing a specific Mafia player
+ * A servlet for adding a participant (player) to a game
  * 
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
-public class PlayerServlet extends BaseServlet {
+public class AddParticipantServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -37,10 +37,10 @@ public class PlayerServlet extends BaseServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PlayerServlet</title>");            
+            out.println("<title>Servlet AddPlayerServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PlayerServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddPlayerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {            
