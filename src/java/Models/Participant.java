@@ -113,16 +113,20 @@ public class Participant {
         PreparedStatement query = connection.prepareStatement(sql);
         query.setInt(1, gameid);
         ResultSet results = query.executeQuery();
-
+        
+        Player player = null;
         List<Participant> participants = new ArrayList<Participant>();
         while (results.next()) {
             try {
                 //Luodaan tuloksia vastaava olio ja palautetaan olio:
+                player = Player.getPlayer(Integer.parseInt(results.getString("playerid")));
                 Participant participant = new Participant();
                 participant.setGameid(Integer.parseInt(results.getString("gameid")));
                 participant.setPlayerid(Integer.parseInt(results.getString("playerid")));
                 participant.setPoints(Integer.parseInt(results.getString("points")));
                 participant.setNotes(results.getString("notes"));
+                participant.setName(player.getName());
+                participant.setMeta(player.getMeta());
 
                 participants.add(participant);
             } catch (SQLException ex) {

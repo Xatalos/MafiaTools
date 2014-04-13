@@ -46,12 +46,14 @@ public class GameServlet extends BaseServlet {
         String idParam = request.getParameter("id");
         Game game = null;
         int id = 1;
+        int gameid = 0;
         try {
             id = Integer.parseInt(idParam);
         } catch (Exception e) {
         }
         try {
             game = Game.getGame(id);
+            gameid = game.getId();
         } catch (SQLException ex) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,7 +61,7 @@ public class GameServlet extends BaseServlet {
         if (game != null) {
             List<Participant> participants = null;
             try {
-                participants = Participant.getParticipants(id);
+                participants = Participant.getParticipants(gameid);
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
