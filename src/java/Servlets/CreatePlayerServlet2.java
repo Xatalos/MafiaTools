@@ -48,8 +48,8 @@ public class CreatePlayerServlet2 extends BaseServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
             }
+            response.sendRedirect("Players");
         }
-        response.sendRedirect("Players");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
