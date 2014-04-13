@@ -4,12 +4,20 @@
  */
 package Servlets;
 
+import Models.Game;
+import Models.Player;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for adding a participant (player) to a game
@@ -30,23 +38,22 @@ public class AddParticipantServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddPlayerServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddPlayerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+        HttpSession session = request.getSession();
+        if (!isLoggedIn(session)) {
+            showJSP("index.jsp", request, response);
         }
+
+        List<Player> players = null;
+        Game game = null;
+        try {
+            players = Player.getPlayers(User.getUser("testi", "testi"));
+        } catch (SQLException ex) {
+            Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("players", players);
+        showJSP("addparticipant.jsp", request, response);
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

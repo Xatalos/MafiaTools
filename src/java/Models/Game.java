@@ -41,6 +41,7 @@ public class Game {
     public String getName() {
         return name;
     }
+    
 
     public int getUserID() {
         return userid;
@@ -56,49 +57,6 @@ public class Game {
 
     public void setUserID(int UserID) {
         this.userid = UserID;
-    }
-
-    // TODO!!!!!! (count(jne.))
-    public static int countGames(User user) {
-        try {
-            int count = 0;
-            String sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
-            Connection connection = Database.getConnection();
-            PreparedStatement query = connection.prepareStatement(sql);
-            ResultSet results = query.executeQuery();
-
-            List<Game> games = new ArrayList<Game>();
-            while (results.next()) {
-                try {
-                    //Luodaan tuloksia vastaava olio ja palautetaan olio:
-                    Game game = new Game();
-                    game.setId(Integer.parseInt(results.getString("gameid")));
-                    game.setName(results.getString("gamename"));
-                    game.setUserID(Integer.parseInt(results.getString("userid")));
-
-                    games.add(game);
-                } catch (SQLException ex) {
-                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            //Suljetaan kaikki resuresultssit:
-            try {
-                results.close();
-            } catch (Exception e) {
-            }
-            try {
-                query.close();
-            } catch (Exception e) {
-            }
-            try {
-                connection.close();
-            } catch (Exception e) {
-            }
-            return count;
-        } catch (SQLException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException("problems at the server side");
-        }
     }
     
     /**

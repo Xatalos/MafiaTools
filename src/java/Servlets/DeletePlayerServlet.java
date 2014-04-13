@@ -20,11 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * A servlet for showing all the players created by a specific user
- * 
- * @author Teemu Salminen <teemujsalminen@gmail.com>
+ *
+ * @author Teemu
  */
-public class PlayersServlet extends BaseServlet {
+public class DeletePlayerServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -39,18 +38,27 @@ public class PlayersServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String idString = request.getParameter("id");
+        String name = request.getParameter("name");
+        int id = Integer.parseInt(idString);
+
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
+        } else {
+            try {
+                Player.deletePlayer(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            List<Player> players = null;
+            try {
+                players = Player.getPlayers(User.getUser("testi", "testi"));
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("players", players);
+            showJSP("players.jsp", request, response);
         }
-
-        List<Player> players = null;
-        try {
-            players = Player.getPlayers(User.getUser("testi", "testi"));
-        } catch (SQLException ex) {
-            Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("players", players);
-        showJSP("players.jsp", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

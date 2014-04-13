@@ -6,10 +6,16 @@
 
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:base pageTitle="MafiaTools Sample Player">
+<t:base pageTitle="MafiaTools Create Player">
     <div class="container">
-        <h1>Sample Player</h1>
-        <form class="form-horizontal" action="Player" method="POST">
+        <h1>Create Player</h1>
+        <form class="form-horizontal" action="CreatePlayer2" method="POST">
+            <div class="form-group">
+                <label for="inputEmail1" class="col-md-2 control-label">Player Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="inputEmail1" name="playername" placeholder="Player Name">
+                </div>
+            </div>
             <div class="form-group">
                 <label for="inputEmail1" class="col-md-2 control-label">Meta Information</label>
                 <div class="col-md-10">
@@ -18,8 +24,8 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href="players.jsp"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
-                    <a href="players.jsp"><button type="submit" class="btn btn-xs btn-default">Save Changes</button></a>
+                    <a href="Players"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+                    <button type="submit" class="btn btn-xs btn-default">Save Changes</button>
                 </div>
             </div>
         </form>

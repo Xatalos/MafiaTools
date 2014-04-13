@@ -7,7 +7,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:base pageTitle="MafiaTools Add Player">
+<t:base pageTitle="MafiaTools Add Participant">
     <div class="container">
         <h1>Players</h1>
         <table class="table table-striped">
@@ -18,23 +18,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Xatalos</td>
-                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
-                </tr>
-                <tr>
-                    <td>gonzaw</td>
-                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
-                </tr>
-                <tr>
-                    <td>marvellosity</td>
-                    <td><a href="Game"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
-                </tr>
+                <c:forEach var="player" items="${players}">
+                    <tr>
+                        <td>${player.name}</td>
+                        <td><a href="AddParticipant2?id=${player.id}"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a href="Game"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+                <a href="Game?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
             </div>
         </div>
     </div>

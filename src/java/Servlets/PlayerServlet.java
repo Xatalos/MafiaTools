@@ -4,12 +4,20 @@
  */
 package Servlets;
 
+import Models.Game;
+import Models.Player;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for showing a specific Mafia player
@@ -30,21 +38,38 @@ public class PlayerServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        if (!isLoggedIn(session)) {
+            showJSP("index.jsp", request, response);
+        }
+
+        String idParam = request.getParameter("id");
+        Player player = null;
+        int id = 1;
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PlayerServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PlayerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+            id = Integer.parseInt(idParam);
+        } catch (Exception e) {
+        }
+        try {
+            player = Player.getPlayer(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (player != null) {
+            request.setAttribute("player", player);
+            showJSP("player.jsp", request, response);
+        } else {
+            request.setAttribute("game", null);
+            setError("The player was not found!", request);
+            List<Player> players = null;
+            try {
+                players = Player.getPlayers(User.getUser("testi", "testi"));
+            } catch (SQLException ex) {
+                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("players", players);
+            showJSP("players.jsp", request, response);
         }
     }
 

@@ -80,6 +80,30 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>Servlets.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeletePlayerServlet</servlet-name>
+        <servlet-class>Servlets.DeletePlayerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreatePlayerServlet</servlet-name>
+        <servlet-class>Servlets.CreatePlayerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreatePlayerServlet2</servlet-name>
+        <servlet-class>Servlets.CreatePlayerServlet2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveParticipantServlet</servlet-name>
+        <servlet-class>Servlets.RemoveParticipantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditPlayerServlet</servlet-name>
+        <servlet-class>Servlets.EditPlayerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddParticipantServlet2</servlet-name>
+        <servlet-class>Servlets.AddParticipantServlet2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -159,6 +183,30 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePlayerServlet</servlet-name>
+        <url-pattern>/DeletePlayer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePlayerServlet</servlet-name>
+        <url-pattern>/CreatePlayer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePlayerServlet2</servlet-name>
+        <url-pattern>/CreatePlayer2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveParticipantServlet</servlet-name>
+        <url-pattern>/RemoveParticipant</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditPlayerServlet</servlet-name>
+        <url-pattern>/EditPlayer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddParticipantServlet2</servlet-name>
+        <url-pattern>/AddParticipant2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

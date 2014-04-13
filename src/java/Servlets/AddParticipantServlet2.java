@@ -5,6 +5,7 @@
 package Servlets;
 
 import Models.Game;
+import Models.Participant;
 import Models.Player;
 import Models.User;
 import java.io.IOException;
@@ -20,11 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * A servlet for showing all the players created by a specific user
- * 
- * @author Teemu Salminen <teemujsalminen@gmail.com>
+ *
+ * @author Teemu
  */
-public class PlayersServlet extends BaseServlet {
+public class AddParticipantServlet2 extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -38,19 +38,32 @@ public class PlayersServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         HttpSession session = request.getSession();
+        String gameidString = request.getParameter("gameid");
+        String playeridString = request.getParameter("playerid");
+        int gameid = Integer.parseInt(gameidString);
+        int playerid = Integer.parseInt(playeridString);
+        Game game = null;
+
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
+        } else {
+            try {
+                Participant.addParticipant(gameid, playerid);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            List<Participant> participants = null;
+            try {
+                game = Game.getGame(gameid);
+                participants = Participant.getParticipants(game);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("participants", participants);
+            showJSP("Game?id=" + gameid, request, response);
         }
-
-        List<Player> players = null;
-        try {
-            players = Player.getPlayers(User.getUser("testi", "testi"));
-        } catch (SQLException ex) {
-            Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("players", players);
-        showJSP("players.jsp", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

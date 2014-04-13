@@ -5,6 +5,7 @@
 package Servlets;
 
 import Models.Game;
+import Models.Participant;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -56,6 +57,13 @@ public class GameServlet extends BaseServlet {
         }
 
         if (game != null) {
+            List<Participant> participants = null;
+            try {
+                participants = Participant.getParticipants(game);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("participants", participants);
             request.setAttribute("game", game);
             showJSP("game.jsp", request, response);
         } else {

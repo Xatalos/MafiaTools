@@ -12,8 +12,8 @@
             <h1>${game.name}</h1>
             <input type="text" class="form-control" id="inputEmail1" name="gamename" placeholder="Rename Game">
             <input type="hidden" name="id" value="${game.id}">
-            <a href="AddPlayer"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
-            <a href="Player"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a>
+            <a href="AddParticipant?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
+            <a href="CreatePlayer"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -25,27 +25,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                <c:forEach var="participant" items="${participants}">
                     <tr>
-                        <td>Xatalos</td>
-                        <td>+10</td>
-                        <td>Confirmed town</td>
-                        <td>???</td>
-                        <td><button type="button" class="btn btn-xs btn-default">Remove From Game</button></td>
+                        <td>${participant.name}</td>
+                        <td>${participant.points}</td>
+                        <td>${participant.notes}</td>
+                        <td>${participant.meta}</td>
+                        <td><a href="RemoveParticipant?id=${sdsdsdds}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
                     </tr>
-                    <tr>
-                        <td>gonzaw</td>
-                        <td>-10</td>
-                        <td>Confirmed Mafia</td>
-                        <td>???</td>
-                        <td><button type="button" class="btn btn-xs btn-default">Remove From Game</button></td>
-                    </tr>
-                    <tr>
-                        <td>marvellosity</td>
-                        <td>+7</td>
-                        <td>Probably town, very active and involved</td>
-                        <td>More active and involved as town, less hesitant as Mafia</td>
-                        <td><button type="button" class="btn btn-xs btn-default">Remove From Game</button></td>
-                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div class="form-group">

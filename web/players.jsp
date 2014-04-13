@@ -17,7 +17,7 @@
         <p> </p>
         <p>Hello ${user.name}!</p>
         <h1>Players</h1>
-        <p><a href="Player"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a></p>
+        <p><a href="CreatePlayer"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a></p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -27,21 +27,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Xatalos</td>
-                    <td><a href="Player"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
-                    <td><button type="button" class="btn btn-xs btn-default">Delete Player</button></td>
-                </tr>
-                <tr>
-                    <td>gonzaw</td>
-                    <td><a href="Player"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
-                    <td><button type="button" class="btn btn-xs btn-default">Delete Player</button></td>
-                </tr>
-                <tr>
-                    <td>marvellosity</td>
-                    <td><a href="Player"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
-                    <td><button type="button" class="btn btn-xs btn-default">Delete Player</button></td>
-                </tr>
+                <c:forEach var="player" items="${players}">
+                    <tr>
+                        <td>${player.name}</td>
+                        <td><a href="Player?id=${player.id}"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
+                        <td><a href="DeletePlayer?id=${player.id}"><button type="button" class="btn btn-xs btn-default">Delete Player</button></a></td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
