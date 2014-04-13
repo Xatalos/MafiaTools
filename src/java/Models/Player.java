@@ -67,6 +67,13 @@ public class Player {
         this.userid = userid;
     }
 
+    /**
+     * Fetches all the players created by a specified user from the database
+     *
+     * @param user the specified user
+     *
+     * @return players all the players created by a specified user
+     */
     public static List<Player> getPlayers(User user) throws SQLException {
         String sql = "SELECT playerid, playername, meta, userid from player ORDER BY playername";
         Connection connection = Database.getConnection();
@@ -104,6 +111,14 @@ public class Player {
         return players;
     }
 
+    /**
+     * Inserts a new player to the database
+     *
+     * @param name the name of the new player
+     * @param meta the meta information for the new player
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void createPlayer(String name, String meta) throws SQLException {
         String sql = "INSERT INTO player(playername, meta, userid) VALUES(?,?,?) RETURNING playerid";
         Connection connection = Database.getConnection();
@@ -135,6 +150,15 @@ public class Player {
         }
     }
 
+    /**
+     * Fetches a specified player from the database
+     *
+     * @param id the identification number of the player
+     *
+     * @throws SQLException if an SQL error occurs
+     *
+     * @return player the specified player
+     */
     public static Player getPlayer(int id) throws SQLException {
         String sql = "SELECT playerid, playername, meta, userid from player where playerid = ?";
         Connection connection = Database.getConnection();
@@ -174,6 +198,15 @@ public class Player {
         return player;
     }
 
+    /**
+     * Edits the name and/or meta information of a specific player
+     *
+     * @param id the identification number of the player
+     * @param name the new name of the player
+     * @param meta the new meta information for the player
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void editPlayer(int id, String name, String meta) throws SQLException {
         String sql = null;
         Connection connection = null;
@@ -210,6 +243,13 @@ public class Player {
         }
     }
 
+    /**
+     * Removes a specified player from the database
+     *
+     * @param id the identification number of the player
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void deletePlayer(int id) throws SQLException {
         String sql = "DELETE FROM player WHERE playerid = ?";
         Connection connection = Database.getConnection();

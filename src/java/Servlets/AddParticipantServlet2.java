@@ -21,8 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for adding a participant to a game
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class AddParticipantServlet2 extends BaseServlet {
 

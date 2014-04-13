@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author Teemu
+ * A servlet for creating a Mafia player
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class CreatePlayerServlet2 extends BaseServlet {
 

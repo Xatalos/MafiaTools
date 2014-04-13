@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for logging out a specific user
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class LogoutServlet extends BaseServlet {
 

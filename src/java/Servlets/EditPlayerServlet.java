@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * A servlet for editing information about a Mafia player
  *
- * @author Teemu
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class EditPlayerServlet extends BaseServlet {
 

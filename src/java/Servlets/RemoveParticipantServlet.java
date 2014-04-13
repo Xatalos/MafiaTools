@@ -21,8 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for removing a participant from a Mafia game
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class RemoveParticipantServlet extends BaseServlet {
 

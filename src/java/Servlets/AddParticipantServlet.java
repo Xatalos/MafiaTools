@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * A servlet for adding a participant (player) to a game
+ * A servlet for showing the JSP page for adding a participant to a game
  * 
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */

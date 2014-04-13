@@ -20,8 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Teemu
+ * A servlet for deleting a Mafia player
+ * 
+ * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class DeletePlayerServlet extends BaseServlet {
 
