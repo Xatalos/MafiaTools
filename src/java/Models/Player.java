@@ -119,6 +119,7 @@ public class Player {
         //Haetaan RETURNING-määreen palauttama id.
         //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
         int id = ids.getInt(1);
+        editPlayer(id, name, meta);
 
         try {
             ids.close();
@@ -173,13 +174,27 @@ public class Player {
         return player;
     }
 
-    public static void renamePlayer(int id, String name) throws SQLException {
-        String sql = "UPDATE player SET playername = ? WHERE playerid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, name);
-        query.setInt(2, id);
-        ResultSet rs = query.executeQuery();
+    public static void editPlayer(int id, String name, String meta) throws SQLException {
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
+        if (name.equals("") || name.isEmpty()) {
+            sql = "UPDATE player SET meta = ? WHERE playerid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setString(1, meta);
+            query.setInt(2, id);
+            rs = query.executeQuery();
+        } else {
+            sql = "UPDATE player SET playername = ?, meta = ? WHERE playerid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setString(1, name);
+            query.setString(2, meta);
+            query.setInt(3, id);
+            rs = query.executeQuery();
+        }
 
         try {
             rs.close();
@@ -195,28 +210,6 @@ public class Player {
         }
     }
 
-    public static void editMeta(int id, String meta) throws SQLException {
-        String sql = "UPDATE player SET meta = ? WHERE playerid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, meta);
-        query.setInt(2, id);
-        ResultSet rs = query.executeQuery();
-
-        try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
-        }
-    }
-    
     public static void deletePlayer(int id) throws SQLException {
         String sql = "DELETE FROM player WHERE playerid = ?";
         Connection connection = Database.getConnection();

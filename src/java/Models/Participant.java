@@ -25,12 +25,13 @@ public class Participant {
     private int points;
     private String notes;
     private String name;
+    private String meta;
+    
+    public Participant() {
+    }
 
     public String getName() {
         return name;
-    }
-
-    public Participant() {
     }
 
     public int getGameid() {
@@ -47,6 +48,10 @@ public class Participant {
 
     public String getNotes() {
         return notes;
+    }
+
+    public String getMeta() {
+        return meta;
     }
 
     public void setGameid(int gameid) {
@@ -67,6 +72,10 @@ public class Participant {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setMeta(String meta) {
+        this.meta = meta;
     }
     
     public static void addParticipant(int gameid, int playerid) throws SQLException {
@@ -98,10 +107,11 @@ public class Participant {
         }
     }
     
-    public static List<Participant> getParticipants(Game game) throws SQLException {
-        String sql = "SELECT gameid, playerid, points, notes from participant";
+    public static List<Participant> getParticipants(int gameid) throws SQLException {
+        String sql = "SELECT gameid, playerid, points, notes from participant where gameid = ?";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
+        query.setInt(1, gameid);
         ResultSet results = query.executeQuery();
 
         List<Participant> participants = new ArrayList<Participant>();
@@ -133,6 +143,28 @@ public class Participant {
         } catch (Exception e) {
         }
         return participants;
+    }
+    
+    public static void removeParticipant(int gameid, int playerid) throws SQLException {
+        String sql = "DELETE FROM participant WHERE gameid = ? and playerid = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setInt(1, gameid);
+        query.setInt(2, playerid);
+        ResultSet rs = query.executeQuery();
+
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
     }
     
     

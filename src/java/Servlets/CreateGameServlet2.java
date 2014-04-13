@@ -38,9 +38,6 @@ public class CreateGameServlet2 extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String name = request.getParameter("gamename");
-        Game game = new Game();
-        game.setName(name);
-        game.setUserID(1);
 
         if (name == null || name.equals("")) {
             setError("You didn't give a name!", request);
@@ -48,7 +45,6 @@ public class CreateGameServlet2 extends BaseServlet {
         } else {
             try {
                 Game.createGame(name);
-                
             } catch (NamingException ex) {
                 Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

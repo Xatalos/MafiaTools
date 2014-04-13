@@ -31,7 +31,7 @@
                         <td>${participant.points}</td>
                         <td>${participant.notes}</td>
                         <td>${participant.meta}</td>
-                        <td><a href="RemoveParticipant?id=${sdsdsdds}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
+                        <td><a href="RemoveParticipant?playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

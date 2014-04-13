@@ -59,7 +59,7 @@ public class GameServlet extends BaseServlet {
         if (game != null) {
             List<Participant> participants = null;
             try {
-                participants = Participant.getParticipants(game);
+                participants = Participant.getParticipants(id);
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -57,7 +57,7 @@ public class AddParticipantServlet2 extends BaseServlet {
             List<Participant> participants = null;
             try {
                 game = Game.getGame(gameid);
-                participants = Participant.getParticipants(game);
+                participants = Participant.getParticipants(gameid);
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

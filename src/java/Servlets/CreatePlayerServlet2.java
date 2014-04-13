@@ -37,10 +37,6 @@ public class CreatePlayerServlet2 extends BaseServlet {
             throws ServletException, IOException {
         String name = request.getParameter("playername");
         String meta = request.getParameter("meta");
-        Player player = new Player();
-        player.setName(name);
-        player.setMeta(meta);
-        player.setUserid(1);
 
         if (name == null || name.equals("")) {
             setError("You didn't give a name!", request);

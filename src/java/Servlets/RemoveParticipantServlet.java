@@ -4,18 +4,27 @@
  */
 package Servlets;
 
+import Models.Game;
+import Models.Participant;
+import Models.Player;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Teemu
  */
-public class RemoveParticipantServlet extends HttpServlet {
+public class RemoveParticipantServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -29,21 +38,29 @@ public class RemoveParticipantServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RemoveParticipantServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RemoveParticipantServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+        
+        HttpSession session = request.getSession();
+        String gameidString = request.getParameter("gameid");
+        String playeridString = request.getParameter("playerid");
+        int gameid = Integer.parseInt(gameidString);
+        int playerid = Integer.parseInt(playeridString);
+
+        if (!isLoggedIn(session)) {
+            showJSP("index.jsp", request, response);
+        } else {
+            try {
+                Participant.removeParticipant(gameid, playerid);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            List<Participant> participants = null;
+            try {
+                participants = Participant.getParticipants(gameid);
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("participants", participants);
+            showJSP("game.jsp", request, response);
         }
     }
 

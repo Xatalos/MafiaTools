@@ -48,10 +48,7 @@ public class EditPlayerServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                if (!name.equals("") && !name.isEmpty()) {
-                    Player.renamePlayer(id, name);
-                }
-                Player.editMeta(id, meta);
+                Player.editPlayer(id, name, meta);
                 player = Player.getPlayer(id);
             } catch (SQLException ex) {
                 Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
