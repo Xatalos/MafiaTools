@@ -16,7 +16,7 @@ import javax.naming.NamingException;
 
 /**
  * A model for a game of Mafia
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class Game {
@@ -41,7 +41,6 @@ public class Game {
     public String getName() {
         return name;
     }
-    
 
     public int getUserID() {
         return userid;
@@ -58,12 +57,12 @@ public class Game {
     public void setUserID(int UserID) {
         this.userid = UserID;
     }
-    
+
     /**
      * Fetches all the games created by a specified user from the database
      *
      * @param user the specified user
-     * 
+     *
      * @return games all the games created by a specified user
      */
     public static List<Game> getGames(User user) {
@@ -107,14 +106,14 @@ public class Game {
         }
 
     }
-    
+
     /**
      * Fetches a specified game from the database
      *
      * @param id the identification number of the game
-     * 
+     *
      * @throws SQLException if an SQL error occurs
-     * 
+     *
      * @return game the specified game
      */
     public static Game getGame(int id) throws SQLException {
@@ -154,12 +153,12 @@ public class Game {
         //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
         return game;
     }
-    
+
     /**
      * Removes a specified game from the database
      *
      * @param id the identification number of the game
-     * 
+     *
      * @throws SQLException if an SQL error occurs
      */
     public static void deleteGame(int id) throws SQLException {
@@ -182,16 +181,16 @@ public class Game {
         } catch (Exception e) {
         }
     }
-    
+
     /**
      * Edits a specified game from the database
      *
      * @param id the identification number of the game
      * @param name the new name of the game
-     * 
+     *
      * @throws SQLException if an SQL error occurs
      */
-    public static void editGame(int id, String name, List<Participant> participants) throws SQLException {
+    public static void renameGame(int id, String name) throws SQLException {
         String sql = "UPDATE game SET gamename = ? WHERE gameid = ?";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
@@ -211,17 +210,13 @@ public class Game {
             connection.close();
         } catch (Exception e) {
         }
-        
-        for (Participant participant : participants) {
-            Participant.editParticipant(participant.getGameid(), participant.getPlayerid(), participant.getPoints(), participant.getNotes());
-        }
     }
 
     /**
      * Inserts a new game to the database
      *
      * @param name the name of the new game
-     * 
+     *
      * @throws SQLException if an SQL error occurs
      * @throws namingException if a naming error occurs
      */

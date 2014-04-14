@@ -4,14 +4,11 @@
  */
 package Servlets;
 
-import Models.Game;
 import Models.Participant;
 import Models.Player;
-import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,11 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * A servlet for removing a participant from a Mafia game
- * 
- * @author Teemu Salminen <teemujsalminen@gmail.com>
+ *
+ * @author Teemu
  */
-public class RemoveParticipantServlet extends BaseServlet {
+public class EditParticipantServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -39,22 +35,24 @@ public class RemoveParticipantServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession session = request.getSession();
         String gameidString = request.getParameter("gameid");
         String playeridString = request.getParameter("playerid");
         int gameid = Integer.parseInt(gameidString);
         int playerid = Integer.parseInt(playeridString);
+        Participant participant = null;
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Participant.removeParticipant(gameid, playerid);
+                participant = Participant.getParticipant(gameid, playerid);
             } catch (SQLException ex) {
-                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            response.sendRedirect("Game?id=" + gameid);
+            request.setAttribute("gameid", gameid);
+            request.setAttribute("participant", participant);
+            showJSP("participant.jsp", request, response);
         }
     }
 

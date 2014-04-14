@@ -22,20 +22,21 @@
                         <th>Points</th>
                         <th>Notes</th>
                         <th>Meta Information</th>
+                        <th>Enter Notes</th>
                         <th>Remove From Game</th>
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="participant" items="${participants}">
-                    <tr>
-                        <td>${participant.name}</td>
-                        <td><textarea cols="5" rows="3" name="points" placeholder="Points" wrap="hard">${participant.points}</textarea></td>
-                        <td><textarea cols="60" rows="4" name="notes" placeholder="Notes" wrap="hard">${participant.notes}</textarea></td>
-                        <td>${participant.meta}</td>
-                        <td><a href="RemoveParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
-                        <input type="hidden" name="participants" value="${participants}">
-                    </tr>
-                </c:forEach>
+                    <c:forEach var="participant" items="${participants}">
+                        <tr>
+                            <td>${participant.name}</td>
+                            <td>${participant.points}</td>
+                            <td>${participant.notes}</td>
+                            <td>${participant.meta}</td>
+                            <td><a href="EditParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Enter Notes</button></a></td>
+                            <td><a href="RemoveParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
             <div class="form-group">

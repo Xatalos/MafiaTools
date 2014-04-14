@@ -150,7 +150,53 @@ public class Participant {
         }
         return participants;
     }
-    
+
+    public static Participant getParticipant(int gameid, int playerid) throws SQLException {
+        String sql = "SELECT points, notes from participant where gameid = ? and playerid = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setInt(1, gameid);
+        query.setInt(2, playerid);
+        ResultSet results = query.executeQuery();
+
+        Player player = null;
+        Participant participant = null;
+        //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+        //ja asetetaan palautettava olio:
+        if (results.next()) {
+            player = Player.getPlayer(playerid);
+            participant = new Participant();
+            participant.setGameid(gameid);
+            participant.setPlayerid(playerid);
+            if (results.getString("points") != null) {
+                participant.setPoints(Integer.parseInt(results.getString("points")));
+            }
+            participant.setNotes(results.getString("notes"));
+            participant.setName(player.getName());
+            participant.setMeta(player.getMeta());
+        }
+
+
+        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
+
+        //Suljetaan kaikki resurssit:
+        try {
+            results.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+
+        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
+        return participant;
+    }
+
     public static void editParticipant(int gameid, int playerid, int points, String notes) throws SQLException {
         String sql = "UPDATE participant SET points = ?, notes = ? WHERE gameid = ? and playerid = ?";
         Connection connection = Database.getConnection();

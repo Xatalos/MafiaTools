@@ -40,7 +40,6 @@ public class EditGameServlet extends BaseServlet {
 
         String name = request.getParameter("gamename");
         String idString = request.getParameter("id");
-//        List<Participant> participants = request.getParameter("participants");
         int id = Integer.parseInt(idString);
         Game game = null;
         List<Participant> participants = null;
@@ -52,7 +51,7 @@ public class EditGameServlet extends BaseServlet {
             try {
                 if (!name.equals("") && !name.isEmpty()) {
                     participants = Participant.getParticipants(id);
-                    Game.editGame(id, name, participants);
+                    Game.renameGame(id, name);
                 }
                 game = Game.getGame(id);
             } catch (SQLException ex) {

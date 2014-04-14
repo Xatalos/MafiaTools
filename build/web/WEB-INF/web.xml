@@ -104,6 +104,14 @@
         <servlet-name>AddParticipantServlet2</servlet-name>
         <servlet-class>Servlets.AddParticipantServlet2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditParticipantServlet</servlet-name>
+        <servlet-class>Servlets.EditParticipantServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditParticipantServlet2</servlet-name>
+        <servlet-class>Servlets.EditParticipantServlet2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -207,6 +215,14 @@
     <servlet-mapping>
         <servlet-name>AddParticipantServlet2</servlet-name>
         <url-pattern>/AddParticipant2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditParticipantServlet</servlet-name>
+        <url-pattern>/EditParticipant</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditParticipantServlet2</servlet-name>
+        <url-pattern>/EditParticipant2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
