@@ -5,6 +5,7 @@
 package Servlets;
 
 import Models.Game;
+import Models.Participant;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,8 +40,10 @@ public class EditGameServlet extends BaseServlet {
 
         String name = request.getParameter("gamename");
         String idString = request.getParameter("id");
+//        List<Participant> participants = request.getParameter("participants");
         int id = Integer.parseInt(idString);
         Game game = null;
+        List<Participant> participants = null;
         HttpSession session = request.getSession();
 
         if (!isLoggedIn(session)) {
@@ -48,7 +51,8 @@ public class EditGameServlet extends BaseServlet {
         } else {
             try {
                 if (!name.equals("") && !name.isEmpty()) {
-                    Game.renameGame(id, name);
+                    participants = Participant.getParticipants(id);
+                    Game.editGame(id, name, participants);
                 }
                 game = Game.getGame(id);
             } catch (SQLException ex) {

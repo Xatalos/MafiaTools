@@ -29,10 +29,11 @@
                 <c:forEach var="participant" items="${participants}">
                     <tr>
                         <td>${participant.name}</td>
-                        <td>${participant.points}</td>
-                        <td>${participant.notes}</td>
+                        <td><textarea cols="5" rows="3" name="points" placeholder="Points" wrap="hard">${participant.points}</textarea></td>
+                        <td><textarea cols="60" rows="4" name="notes" placeholder="Notes" wrap="hard">${participant.notes}</textarea></td>
                         <td>${participant.meta}</td>
                         <td><a href="RemoveParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
+                        <input type="hidden" name="participants" value="${participants}">
                     </tr>
                 </c:forEach>
                 </tbody>

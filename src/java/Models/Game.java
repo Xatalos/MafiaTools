@@ -184,18 +184,18 @@ public class Game {
     }
     
     /**
-     * Renames a specified game from the database
+     * Edits a specified game from the database
      *
      * @param id the identification number of the game
-     * @param newName the new name of the game
+     * @param name the new name of the game
      * 
      * @throws SQLException if an SQL error occurs
      */
-    public static void renameGame(int id, String newName) throws SQLException {
+    public static void editGame(int id, String name, List<Participant> participants) throws SQLException {
         String sql = "UPDATE game SET gamename = ? WHERE gameid = ?";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, newName);
+        query.setString(1, name);
         query.setInt(2, id);
         ResultSet rs = query.executeQuery();
 
@@ -210,6 +210,10 @@ public class Game {
         try {
             connection.close();
         } catch (Exception e) {
+        }
+        
+        for (Participant participant : participants) {
+            Participant.editParticipant(participant.getGameid(), participant.getPlayerid(), participant.getPoints(), participant.getNotes());
         }
     }
 

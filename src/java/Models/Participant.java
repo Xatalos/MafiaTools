@@ -150,6 +150,30 @@ public class Participant {
         }
         return participants;
     }
+    
+    public static void editParticipant(int gameid, int playerid, int points, String notes) throws SQLException {
+        String sql = "UPDATE participant SET points = ?, notes = ? WHERE gameid = ? and playerid = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setInt(1, points);
+        query.setString(2, notes);
+        query.setInt(3, gameid);
+        query.setInt(4, playerid);
+        ResultSet rs = query.executeQuery();
+
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+    }
 
     public static void removeParticipant(int gameid, int playerid) throws SQLException {
         String sql = "DELETE FROM participant WHERE gameid = ? and playerid = ?";
