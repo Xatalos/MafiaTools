@@ -16,10 +16,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for creating a Mafia player
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class CreatePlayerServlet2 extends BaseServlet {
@@ -38,17 +39,22 @@ public class CreatePlayerServlet2 extends BaseServlet {
             throws ServletException, IOException {
         String name = request.getParameter("playername");
         String meta = request.getParameter("meta");
+        HttpSession session = request.getSession();
 
-        if (name == null || name.equals("")) {
-            setError("You didn't give a name!", request);
-            showJSP("createplayer.jsp", request, response);
+        if (!isLoggedIn(session)) {
+            showJSP("index.jsp", request, response);
         } else {
-            try {
-                Player.createPlayer(name, meta);
-            } catch (SQLException ex) {
-                Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
+            if (name == null || name.equals("")) {
+                setError("You didn't give a name!", request);
+                showJSP("createplayer.jsp", request, response);
+            } else {
+                try {
+                    Player.createPlayer(name, meta);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                response.sendRedirect("Players");
             }
-            response.sendRedirect("Players");
         }
     }
 
