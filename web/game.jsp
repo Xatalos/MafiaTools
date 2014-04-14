@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:base pageTitle="MafiaTools Game">
     <div class="container">
@@ -31,7 +32,7 @@
                         <td>${participant.points}</td>
                         <td>${participant.notes}</td>
                         <td>${participant.meta}</td>
-                        <td><a href="RemoveParticipant?playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
+                        <td><a href="RemoveParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

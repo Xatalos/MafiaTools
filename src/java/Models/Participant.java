@@ -15,18 +15,18 @@ import java.util.logging.Logger;
 
 /**
  * A model for a participant of a Mafia game (a single player in a single game)
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class Participant {
-    
+
     private int gameid;
     private int playerid;
     private int points;
     private String notes;
     private String name;
     private String meta;
-    
+
     public Participant() {
     }
 
@@ -77,7 +77,7 @@ public class Participant {
     public void setMeta(String meta) {
         this.meta = meta;
     }
-    
+
     public static void addParticipant(int gameid, int playerid) throws SQLException {
         String sql = "INSERT INTO participant(gameid, playerid) VALUES(?,?)";
         Connection connection = Database.getConnection();
@@ -106,14 +106,14 @@ public class Participant {
         } catch (Exception e) {
         }
     }
-    
+
     public static List<Participant> getParticipants(int gameid) throws SQLException {
         String sql = "SELECT gameid, playerid, points, notes from participant where gameid = ?";
         Connection connection = Database.getConnection();
         PreparedStatement query = connection.prepareStatement(sql);
         query.setInt(1, gameid);
         ResultSet results = query.executeQuery();
-        
+
         Player player = null;
         List<Participant> participants = new ArrayList<Participant>();
         while (results.next()) {
@@ -123,7 +123,9 @@ public class Participant {
                 Participant participant = new Participant();
                 participant.setGameid(Integer.parseInt(results.getString("gameid")));
                 participant.setPlayerid(Integer.parseInt(results.getString("playerid")));
-                participant.setPoints(Integer.parseInt(results.getString("points")));
+                if (results.getString("points") != null) {
+                    participant.setPoints(Integer.parseInt(results.getString("points")));
+                }
                 participant.setNotes(results.getString("notes"));
                 participant.setName(player.getName());
                 participant.setMeta(player.getMeta());
@@ -148,7 +150,7 @@ public class Participant {
         }
         return participants;
     }
-    
+
     public static void removeParticipant(int gameid, int playerid) throws SQLException {
         String sql = "DELETE FROM participant WHERE gameid = ? and playerid = ?";
         Connection connection = Database.getConnection();
@@ -170,7 +172,4 @@ public class Participant {
         } catch (Exception e) {
         }
     }
-    
-    
-    
 }

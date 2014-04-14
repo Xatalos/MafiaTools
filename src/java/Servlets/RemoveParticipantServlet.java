@@ -54,14 +54,7 @@ public class RemoveParticipantServlet extends BaseServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            List<Participant> participants = null;
-            try {
-                participants = Participant.getParticipants(gameid);
-            } catch (SQLException ex) {
-                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.setAttribute("participants", participants);
-            showJSP("game.jsp", request, response);
+            response.sendRedirect("Game?gameid=" + gameid);
         }
     }
 

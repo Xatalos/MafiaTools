@@ -21,14 +21,14 @@
                 <c:forEach var="player" items="${players}">
                     <tr>
                         <td>${player.name}</td>
-                        <td><a href="AddParticipant2?id=${player.id}"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
+                        <td><a href="AddParticipant2?gameid=${gameid}&playerid=${player.id}"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <a href="Game?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+                <a href="Game?id=${gameid}"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
             </div>
         </div>
     </div>

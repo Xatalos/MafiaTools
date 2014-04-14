@@ -39,6 +39,8 @@ public class AddParticipantServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String gameidString = request.getParameter("id");
+        int gameid = Integer.parseInt(gameidString);
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         }
@@ -51,6 +53,7 @@ public class AddParticipantServlet extends BaseServlet {
             Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("players", players);
+        request.setAttribute("gameid", gameid);
         showJSP("addparticipant.jsp", request, response);
     }
 
