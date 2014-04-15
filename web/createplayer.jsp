@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label for="inputEmail1" class="col-md-2 control-label">Meta Information</label>
                 <div class="col-md-10">
-                    <textarea cols="70" rows="6" name="meta" wrap="hard">???</textarea>
+                    <textarea cols="70" rows="6" name="meta" wrap="hard"></textarea>
                 </div>
             </div>
             <div class="form-group">
