@@ -75,40 +75,47 @@ public class Player {
      * @return players all the players created by a specified user
      */
     public static List<Player> getPlayers(User user) throws SQLException {
-        String sql = "SELECT playerid, playername, meta, userid from player ORDER BY playername";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        ResultSet results = query.executeQuery();
+        List<Player> players = null;
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet results = null;
+        try {
+            sql = "SELECT playerid, playername, meta, userid from player ORDER BY playername";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            results = query.executeQuery();
 
-        List<Player> players = new ArrayList<Player>();
-        while (results.next()) {
+            players = new ArrayList<Player>();
+            while (results.next()) {
+                try {
+                    Player player = new Player();
+                    player.setId(Integer.parseInt(results.getString("playerid")));
+                    player.setName(results.getString("playername"));
+                    player.setMeta(results.getString("meta"));
+                    player.setUserid(Integer.parseInt(results.getString("userid")));
+
+                    players.add(player);
+                } catch (SQLException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return players;
+        } finally {
             try {
-                //Luodaan tuloksia vastaava olio ja palautetaan olio:
-                Player player = new Player();
-                player.setId(Integer.parseInt(results.getString("playerid")));
-                player.setName(results.getString("playername"));
-                player.setMeta(results.getString("meta"));
-                player.setUserid(Integer.parseInt(results.getString("userid")));
-
-                players.add(player);
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                results.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
             }
         }
-        //Suljetaan kaikki resuresultssit:
-        try {
-            results.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
-        }
-        return players;
+
     }
 
     /**
@@ -120,34 +127,42 @@ public class Player {
      * @throws SQLException if an SQL error occurs
      */
     public static void createPlayer(String name, String meta) throws SQLException {
-        String sql = "INSERT INTO player(playername, meta, userid) VALUES(?,?,?) RETURNING playerid";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-
-        query.setString(1, name);
-        query.setString(2, meta);
-        query.setInt(3, 1);
-
-        ResultSet ids = query.executeQuery();
-        ids.next();
-
-        //Haetaan RETURNING-määreen palauttama id.
-        //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
-        int id = ids.getInt(1);
-        editPlayer(id, name, meta);
-
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet ids = null;
         try {
-            ids.close();
-        } catch (Exception e) {
+            sql = "INSERT INTO player(playername, meta, userid) VALUES(?,?,?) RETURNING playerid";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+
+            query.setString(1, name);
+            query.setString(2, meta);
+            query.setInt(3, 1);
+
+            ids = query.executeQuery();
+            ids.next();
+
+            //Haetaan RETURNING-määreen palauttama id.
+            //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
+            int id = ids.getInt(1);
+            editPlayer(id, name, meta);
+        } finally {
+            try {
+                ids.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
-        }
+
+
     }
 
     /**
@@ -160,42 +175,43 @@ public class Player {
      * @return player the specified player
      */
     public static Player getPlayer(int id) throws SQLException {
-        String sql = "SELECT playerid, playername, meta, userid from player where playerid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setInt(1, id);
-        ResultSet rs = query.executeQuery();
-
-        Player player = null;
-        //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
-        //ja asetetaan palautettava olio:
-        if (rs.next()) {
-            player = new Player();
-            player.setId(Integer.parseInt(rs.getString("playerid")));
-            player.setName(rs.getString("playername"));
-            player.setMeta(rs.getString("meta"));
-            player.setUserid(Integer.parseInt(rs.getString("userid")));
-        }
-
-
-        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
-
-        //Suljetaan kaikki resurssit:
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
+            sql = "SELECT playerid, playername, meta, userid from player where playerid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setInt(1, id);
+            rs = query.executeQuery();
+
+            Player player = null;
+            //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+            //ja asetetaan palautettava olio:
+            if (rs.next()) {
+                player = new Player();
+                player.setId(Integer.parseInt(rs.getString("playerid")));
+                player.setName(rs.getString("playername"));
+                player.setMeta(rs.getString("meta"));
+                player.setUserid(Integer.parseInt(rs.getString("userid")));
+            }
+            return player;
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
 
-        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
-        return player;
     }
 
     /**
@@ -212,34 +228,36 @@ public class Player {
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet rs = null;
-        if (name.equals("") || name.isEmpty()) {
-            sql = "UPDATE player SET meta = ? WHERE playerid = ?";
-            connection = Database.getConnection();
-            query = connection.prepareStatement(sql);
-            query.setString(1, meta);
-            query.setInt(2, id);
-            rs = query.executeQuery();
-        } else {
-            sql = "UPDATE player SET playername = ?, meta = ? WHERE playerid = ?";
-            connection = Database.getConnection();
-            query = connection.prepareStatement(sql);
-            query.setString(1, name);
-            query.setString(2, meta);
-            query.setInt(3, id);
-            rs = query.executeQuery();
-        }
-
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
+            if (name.equals("") || name.isEmpty()) {
+                sql = "UPDATE player SET meta = ? WHERE playerid = ?";
+                connection = Database.getConnection();
+                query = connection.prepareStatement(sql);
+                query.setString(1, meta);
+                query.setInt(2, id);
+                rs = query.executeQuery();
+            } else {
+                sql = "UPDATE player SET playername = ?, meta = ? WHERE playerid = ?";
+                connection = Database.getConnection();
+                query = connection.prepareStatement(sql);
+                query.setString(1, name);
+                query.setString(2, meta);
+                query.setInt(3, id);
+                rs = query.executeQuery();
+            }
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -251,66 +269,72 @@ public class Player {
      * @throws SQLException if an SQL error occurs
      */
     public static void deletePlayer(int id) throws SQLException {
-        String sql = "DELETE FROM player WHERE playerid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setInt(1, id);
-        ResultSet rs = query.executeQuery();
-
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
+            sql = "DELETE FROM player WHERE playerid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setInt(1, id);
+            rs = query.executeQuery();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
     }
-    
+
     public static boolean isNameAvailable(String name) throws SQLException {
-        String sql = "SELECT playerid, playername, meta, userid from player where playername = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, name);
-        ResultSet rs = query.executeQuery();
-
-        Player player = null;
-        //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
-        //ja asetetaan palautettava olio:
-        if (rs.next()) {
-            player = new Player();
-            player.setId(Integer.parseInt(rs.getString("playerid")));
-            player.setName(rs.getString("playername"));
-            player.setMeta(rs.getString("meta"));
-            player.setUserid(Integer.parseInt(rs.getString("userid")));
-        }
-
-
-        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
-
-        //Suljetaan kaikki resurssit:
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
-        }
+            sql = "SELECT playerid, playername, meta, userid from player where playername = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setString(1, name);
+            rs = query.executeQuery();
 
-        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
-        if (player == null) {
-            return true;
-        } else {
-            return false;
+            Player player = null;
+            //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+            //ja asetetaan palautettava olio:
+            if (rs.next()) {
+                player = new Player();
+                player.setId(Integer.parseInt(rs.getString("playerid")));
+                player.setName(rs.getString("playername"));
+                player.setMeta(rs.getString("meta"));
+                player.setUserid(Integer.parseInt(rs.getString("userid")));
+            }
+            if (player == null) {
+                return true;
+            } else {
+                return false;
+            }
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
     }
 }

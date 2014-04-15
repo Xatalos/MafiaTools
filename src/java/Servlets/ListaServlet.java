@@ -7,8 +7,11 @@ package Servlets;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +37,12 @@ public class ListaServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> asiat = new ArrayList<String>();
-        List<User> users = User.getUsers();
+        List<User> users = null;
+        try {
+            users = User.getUsers();
+        } catch (SQLException ex) {
+            Logger.getLogger(ListaServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         asiat.add("Kirahvi");
         asiat.add("Trumpetti");
         asiat.add("Jeesus");

@@ -65,12 +65,16 @@ public class Game {
      *
      * @return games all the games created by a specified user
      */
-    public static List<Game> getGames(User user) {
+    public static List<Game> getGames(User user) throws SQLException {
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet results = null;
         try {
-            String sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
-            Connection connection = Database.getConnection();
-            PreparedStatement query = connection.prepareStatement(sql);
-            ResultSet results = query.executeQuery();
+            sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            results = query.executeQuery();
 
             List<Game> games = new ArrayList<Game>();
             while (results.next()) {
@@ -86,7 +90,9 @@ public class Game {
                     Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            //Suljetaan kaikki resuresultssit:
+
+            return games;
+        } finally {
             try {
                 results.close();
             } catch (Exception e) {
@@ -99,12 +105,7 @@ public class Game {
                 connection.close();
             } catch (Exception e) {
             }
-            return games;
-        } catch (SQLException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException("problems at the server side");
         }
-
     }
 
     /**
@@ -117,41 +118,41 @@ public class Game {
      * @return game the specified game
      */
     public static Game getGame(int id) throws SQLException {
-        String sql = "SELECT gameid, gamename, userid from game where gameid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setInt(1, id);
-        ResultSet rs = query.executeQuery();
-
-        Game game = null;
-        //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
-        //ja asetetaan palautettava olio:
-        if (rs.next()) {
-            game = new Game();
-            game.setId(Integer.parseInt(rs.getString("gameid")));
-            game.setName(rs.getString("gamename"));
-            game.setUserID(Integer.parseInt(rs.getString("userid")));
-        }
-
-
-        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
-
-        //Suljetaan kaikki resurssit:
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
-        }
+            sql = "SELECT gameid, gamename, userid from game where gameid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setInt(1, id);
+            rs = query.executeQuery();
 
-        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
-        return game;
+            Game game = null;
+            //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+            //ja asetetaan palautettava olio:
+            if (rs.next()) {
+                game = new Game();
+                game.setId(Integer.parseInt(rs.getString("gameid")));
+                game.setName(rs.getString("gamename"));
+                game.setUserID(Integer.parseInt(rs.getString("userid")));
+            }
+            return game;
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
+        }
     }
 
     /**
@@ -162,23 +163,29 @@ public class Game {
      * @throws SQLException if an SQL error occurs
      */
     public static void deleteGame(int id) throws SQLException {
-        String sql = "DELETE FROM game WHERE gameid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setInt(1, id);
-        ResultSet rs = query.executeQuery();
-
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
+            sql = "DELETE FROM game WHERE gameid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setInt(1, id);
+            rs = query.executeQuery();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -191,24 +198,30 @@ public class Game {
      * @throws SQLException if an SQL error occurs
      */
     public static void renameGame(int id, String name) throws SQLException {
-        String sql = "UPDATE game SET gamename = ? WHERE gameid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setString(1, name);
-        query.setInt(2, id);
-        ResultSet rs = query.executeQuery();
-
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
         try {
-            rs.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
+            sql = "UPDATE game SET gamename = ? WHERE gameid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setString(1, name);
+            query.setInt(2, id);
+            rs = query.executeQuery();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -221,34 +234,38 @@ public class Game {
      * @throws namingException if a naming error occurs
      */
     public static void createGame(String name) throws NamingException, SQLException {
-        String sql = "INSERT INTO game(gamename, userid) VALUES(?,?) RETURNING gameid";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-
-        query.setString(1, name);
-        query.setInt(2, 1);
-
-        ResultSet ids = query.executeQuery();
-        ids.next();
-
-        //Haetaan RETURNING-määreen palauttama id.
-        //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
-        int id = ids.getInt(1);
-
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet ids = null;
         try {
-            ids.close();
-        } catch (Exception e) {
-        }
-        try {
-            query.close();
-        } catch (Exception e) {
-        }
-        try {
-            connection.close();
-        } catch (Exception e) {
-        }
+            sql = "INSERT INTO game(gamename, userid) VALUES(?,?) RETURNING gameid";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
 
-//        return Game.getGame(id);
+            query.setString(1, name);
+            query.setInt(2, 1);
 
+            ids = query.executeQuery();
+            ids.next();
+
+            //Haetaan RETURNING-määreen palauttama id.
+            //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
+            int id = ids.getInt(1);
+            //return Game.getGame(id);
+        } finally {
+            try {
+                ids.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
+        }
     }
 }
