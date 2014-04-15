@@ -41,6 +41,7 @@ public class PlayerServlet extends BaseServlet {
         HttpSession session = request.getSession();
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
+            return;
         }
 
         String idParam = request.getParameter("id");

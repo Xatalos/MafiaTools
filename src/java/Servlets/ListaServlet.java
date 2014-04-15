@@ -47,7 +47,7 @@ public class ListaServlet extends BaseServlet {
             out.println("<h1>rikki</h1>");
         } else {
             for (User user : users) {
-                asiat.add("<li>" + user.getName() + "</li>");
+//                asiat.add("<li>" + user.getName() + "</li>");
             }
         }
 

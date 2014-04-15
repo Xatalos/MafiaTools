@@ -197,15 +197,29 @@ public class Participant {
         return participant;
     }
 
-    public static void editParticipant(int gameid, int playerid, int points, String notes) throws SQLException {
-        String sql = "UPDATE participant SET points = ?, notes = ? WHERE gameid = ? and playerid = ?";
-        Connection connection = Database.getConnection();
-        PreparedStatement query = connection.prepareStatement(sql);
-        query.setInt(1, points);
-        query.setString(2, notes);
-        query.setInt(3, gameid);
-        query.setInt(4, playerid);
-        ResultSet rs = query.executeQuery();
+    public static void editParticipant(int gameid, int playerid, int points, String notes, boolean success) throws SQLException {
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
+        if (success == true) {
+            sql = "UPDATE participant SET points = ?, notes = ? WHERE gameid = ? and playerid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setInt(1, points);
+            query.setString(2, notes);
+            query.setInt(3, gameid);
+            query.setInt(4, playerid);
+            rs = query.executeQuery();
+        } else {
+            sql = "UPDATE participant SET notes = ? WHERE gameid = ? and playerid = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setString(1, notes);
+            query.setInt(2, gameid);
+            query.setInt(3, playerid);
+            rs = query.executeQuery();
+        }
 
         try {
             rs.close();

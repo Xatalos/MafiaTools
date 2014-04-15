@@ -47,13 +47,21 @@ public class CreatePlayerServlet2 extends BaseServlet {
             if (name == null || name.equals("")) {
                 setError("You didn't give a name!", request);
                 showJSP("createplayer.jsp", request, response);
-            } else {
-                try {
-                    Player.createPlayer(name, meta);
-                } catch (SQLException ex) {
-                    Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                if (Player.isNameAvailable(name) == false) {
+                    setError("A player with that name already exists!", request);
+                    showJSP("createplayer.jsp", request, response);
+                } else {
+                    try {
+                        Player.createPlayer(name, meta);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    response.sendRedirect("Players");
                 }
-                response.sendRedirect("Players");
+            } catch (SQLException ex) {
+                Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

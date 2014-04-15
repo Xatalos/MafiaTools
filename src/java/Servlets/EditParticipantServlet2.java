@@ -53,8 +53,8 @@ public class EditParticipantServlet2 extends BaseServlet {
             try {
                 points = Integer.parseInt(pointsString);
                 success = true;
-                Participant.editParticipant(gameid, playerid, points, notes);
-            } catch (Exception ex) {
+                Participant.editParticipant(gameid, playerid, points, notes, true);
+            } catch (NumberFormatException ex) {
                 setError("You didn't enter a valid number for points!", request);
                 try {
                     participant = Participant.getParticipant(gameid, playerid);
@@ -63,8 +63,20 @@ public class EditParticipantServlet2 extends BaseServlet {
                 }
                 request.setAttribute("participant", participant);
                 request.setAttribute("gameid", gameid);
+            } catch (SQLException ex) {
+                Logger.getLogger(EditParticipantServlet2.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (success == false) {
+                try {
+                    Participant.editParticipant(gameid, playerid, points, notes, false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(EditParticipantServlet2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    Player.editPlayer(playerid, "", meta);
+                } catch (SQLException ex) {
+                    Logger.getLogger(EditParticipantServlet2.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 showJSP("EditParticipant?gameid=" + gameid + "&playerid=" + playerid, request, response);
             } else {
                 try {

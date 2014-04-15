@@ -41,6 +41,7 @@ public class PlayersServlet extends BaseServlet {
         HttpSession session = request.getSession();
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
+            return;
         }
 
         List<Player> players = null;

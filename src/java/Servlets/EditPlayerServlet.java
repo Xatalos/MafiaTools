@@ -36,7 +36,6 @@ public class EditPlayerServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String name = request.getParameter("playername");
         String idString = request.getParameter("id");
         String meta = request.getParameter("meta");
@@ -49,17 +48,30 @@ public class EditPlayerServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Player.editPlayer(id, name, meta);
-                player = Player.getPlayer(id);
+                if (Player.isNameAvailable(name) == false) {
+                    setError("A player with that name already exists!", request);
+                    name = "";
+                    try {
+                        Player.editPlayer(id, name, meta);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    showJSP("Player?id=" + id, request, response);
+                } else {
+                    try {
+                        Player.editPlayer(id, name, meta);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    showJSP("Player?id=" + id, request, response);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            request.setAttribute("player", player);
-            showJSP("Player?id=" + id, request, response);
         }
     }
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.

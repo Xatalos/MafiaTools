@@ -9,7 +9,7 @@
     </ul>
     <div class="container">
         <p> </p>
-        <p>Hello ${user.name}!</p>
+        <p>Hello <c:out value="${user.name}"/>!</p>
         <h1>Games</h1>
         <p><a href="CreateGame"><button type="button" class="btn btn-xs btn-default">Create New Game</button></a></p>
         <table class="table table-striped">
@@ -23,7 +23,7 @@
             <tbody>
                 <c:forEach var="game" items="${games}">
                     <tr>
-                        <td>${game.name}</td>
+                        <td><c:out value="${game.name}"/></td>
                         <td><a href="Game?id=${game.id}"><button type="button" class="btn btn-xs btn-default">View Game</button></a></td>
                         <td><a href="DeleteGame?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Delete Game</button></a></td>
                     </tr>

@@ -41,12 +41,18 @@ public class EditParticipantServlet extends BaseServlet {
         int gameid = Integer.parseInt(gameidString);
         int playerid = Integer.parseInt(playeridString);
         Participant participant = null;
+        int points = 0;
+        String notes = "";
+        String meta = "";
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
             try {
                 participant = Participant.getParticipant(gameid, playerid);
+                points = participant.getPoints();
+                notes = participant.getNotes();
+                meta = participant.getMeta();
             } catch (SQLException ex) {
                 Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

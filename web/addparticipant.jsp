@@ -20,7 +20,7 @@
             <tbody>
                 <c:forEach var="player" items="${players}">
                     <tr>
-                        <td>${player.name}</td>
+                        <td><c:out value="${player.name}"/></td>
                         <td><a href="AddParticipant2?gameid=${gameid}&playerid=${player.id}"><button type="button" class="btn btn-xs btn-default">Add Player</button></a></td>
                     </tr>
                 </c:forEach>

@@ -10,7 +10,7 @@
 <t:base pageTitle="MafiaTools Game">
     <div class="container">
         <form class="form-horizontal" action="EditGame" method="POST">
-            <h1>${game.name}</h1>
+            <h1><c:out value="${game.name}"/></h1>
             <input type="text" class="form-control" id="inputEmail1" name="gamename" placeholder="Rename Game">
             <input type="hidden" name="id" value="${game.id}">
             <a href="AddParticipant?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
@@ -29,10 +29,10 @@
                 <tbody>
                     <c:forEach var="participant" items="${participants}">
                         <tr>
-                            <td>${participant.name}</td>
-                            <td>${participant.points}</td>
-                            <td>${participant.notes}</td>
-                            <td>${participant.meta}</td>
+                            <td><c:out value="${participant.name}"/></td>
+                            <td><c:out value="${participant.points}"/></td>
+                            <td><c:out value="${participant.notes}"/></td>
+                            <td><c:out value="${participant.meta}"/></td>
                             <td><a href="EditParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Enter Notes</button></a></td>
                             <td><a href="RemoveParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
                         </tr>
@@ -42,7 +42,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="Games"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
-                    <button type="submit" class="btn btn-xs btn-default">Save Changes</button>
+                    <button type="submit" class="btn btn-xs btn-default">Rename Game</button>
                 </div>
             </div>
         </form>

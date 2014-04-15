@@ -15,7 +15,7 @@
     </ul>
     <div class="container">
         <p> </p>
-        <p>Hello ${user.name}!</p>
+        <p>Hello <c:out value="${user.name}"/>!</p>
         <h1>Players</h1>
         <p><a href="CreatePlayer"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a></p>
         <table class="table table-striped">
@@ -29,7 +29,7 @@
             <tbody>
                 <c:forEach var="player" items="${players}">
                     <tr>
-                        <td>${player.name}</td>
+                        <td><c:out value="${player.name}"/></td>
                         <td><a href="Player?id=${player.id}"><button type="button" class="btn btn-xs btn-default">View Player</button></a></td>
                         <td><a href="DeletePlayer?id=${player.id}"><button type="button" class="btn btn-xs btn-default">Delete Player</button></a></td>
                     </tr>

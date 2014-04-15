@@ -5,10 +5,11 @@
 --%>
 
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:base pageTitle="MafiaTools Player">
     <div class="container">
-        <h1>${player.name}</h1>
+        <h1><c:out value="${player.name}"/></h1>
         <form class="form-horizontal" action="EditPlayer" method="POST">
             <input type="hidden" name="id" value="${player.id}">
             <input type="text" class="form-control" id="inputEmail1" name="playername" placeholder="Rename Player">

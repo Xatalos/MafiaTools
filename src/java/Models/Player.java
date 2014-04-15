@@ -270,4 +270,47 @@ public class Player {
         } catch (Exception e) {
         }
     }
+    
+    public static boolean isNameAvailable(String name) throws SQLException {
+        String sql = "SELECT playerid, playername, meta, userid from player where playername = ?";
+        Connection connection = Database.getConnection();
+        PreparedStatement query = connection.prepareStatement(sql);
+        query.setString(1, name);
+        ResultSet rs = query.executeQuery();
+
+        Player player = null;
+        //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
+        //ja asetetaan palautettava olio:
+        if (rs.next()) {
+            player = new Player();
+            player.setId(Integer.parseInt(rs.getString("playerid")));
+            player.setName(rs.getString("playername"));
+            player.setMeta(rs.getString("meta"));
+            player.setUserid(Integer.parseInt(rs.getString("userid")));
+        }
+
+
+        //Jos query ei tuottanut tuloksia käyttäjä on nyt vielä null.
+
+        //Suljetaan kaikki resurssit:
+        try {
+            rs.close();
+        } catch (Exception e) {
+        }
+        try {
+            query.close();
+        } catch (Exception e) {
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+        }
+
+        //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
+        if (player == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
