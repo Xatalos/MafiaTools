@@ -14,7 +14,7 @@
 <h2 style="margin: 0.0px 0.0px 11.0px 0.0px; font: 13.0px Times"><b>Työn aihe</b></h2>
 <p class="p2">Järjestelmän tarkoitus on toimia Team Liquidin Mafia-foorumin pelaajien apuvälineenä mm. muistiinpanojen tekemiseen ja säilyttämiseen. Järjestelmä toteutetaan Javalla laitoksen Tomcat- ympäristössä ja PostgreSQL-tietokannalla.</p>
 <p>
-    Testikäyttäjän tunnus ja salasana: test, test (tosin nyt voi myös rekisteröidä uuden käyttäjän)
+    Testikäyttäjän tunnus ja salasana: testi, testi (tosin nyt voi myös rekisteröidä uuden käyttäjän)
     </p>
 </body>
 </html>
