@@ -6,6 +6,7 @@ package Servlets;
 
 import Models.Game;
 import Models.Player;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -40,31 +41,40 @@ public class EditPlayerServlet extends BaseServlet {
         String idString = request.getParameter("id");
         String meta = request.getParameter("meta");
         int id = Integer.parseInt(idString);
-
         Player player = null;
+
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                if (Player.isNameAvailable(name) == false) {
-                    setError("A player with that name already exists!", request);
-                    name = "";
-                    try {
-                        Player.editPlayer(id, name, meta);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    showJSP("Player?id=" + id, request, response);
+                if (Player.getPlayer(id).getUserid() != loggedIn.getID()) {
+                    setError("Stop trying to hack the database!", request);
+                    showJSP("index.jsp", request, response);
+                    logOut(session);
+                    return;
                 } else {
-                    try {
-                        Player.editPlayer(id, name, meta);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    if (Player.isNameAvailable(name) == false) {
+                        setError("A player with that name already exists!", request);
+                        name = "";
+                        try {
+                            Player.editPlayer(id, name, meta);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        showJSP("Player?id=" + id, request, response);
+                    } else {
+                        try {
+                            Player.editPlayer(id, name, meta);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        showJSP("Player?id=" + id, request, response);
                     }
-                    showJSP("Player?id=" + id, request, response);
                 }
+
             } catch (SQLException ex) {
                 Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

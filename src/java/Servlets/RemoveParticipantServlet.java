@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for removing a participant from a Mafia game
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class RemoveParticipantServlet extends BaseServlet {
@@ -39,8 +39,10 @@ public class RemoveParticipantServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+
         String gameidString = request.getParameter("gameid");
         String playeridString = request.getParameter("playerid");
         int gameid = Integer.parseInt(gameidString);
@@ -50,7 +52,14 @@ public class RemoveParticipantServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Participant.removeParticipant(gameid, playerid);
+                if (Player.getPlayer(playerid).getUserid() != loggedIn.getID()) {
+                    setError("Stop trying to hack the database!", request);
+                    showJSP("index.jsp", request, response);
+                    logOut(session);
+                    return;
+                } else {
+                    Participant.removeParticipant(gameid, playerid);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -74,16 +74,17 @@ public class Player {
      *
      * @return players all the players created by a specified user
      */
-    public static List<Player> getPlayers(User user) throws SQLException {
+    public static List<Player> getPlayers(int userid) throws SQLException {
         List<Player> players = null;
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet results = null;
         try {
-            sql = "SELECT playerid, playername, meta, userid from player ORDER BY playername";
+            sql = "SELECT playerid, playername, meta, player.userid from player, username where username.userid = player.userid and username.userid = ? ORDER BY playername";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
+            query.setInt(1, userid);
             results = query.executeQuery();
 
             players = new ArrayList<Player>();
@@ -126,7 +127,7 @@ public class Player {
      *
      * @throws SQLException if an SQL error occurs
      */
-    public static void createPlayer(String name, String meta) throws SQLException {
+    public static void createPlayer(String name, String meta, int userid) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
@@ -138,7 +139,7 @@ public class Player {
 
             query.setString(1, name);
             query.setString(2, meta);
-            query.setInt(3, 1);
+            query.setInt(3, userid);
 
             ids = query.executeQuery();
             ids.next();

@@ -26,7 +26,6 @@ import javax.servlet.http.HttpSession;
  */
 public class GamesServlet extends BaseServlet {
 
-    // tämä logout-kohtaan?? logOut(session); (BaseServlet) (tosin ei kai välttämättä tarvitse)
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -40,6 +39,8 @@ public class GamesServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+        
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
             return;
@@ -47,10 +48,11 @@ public class GamesServlet extends BaseServlet {
 
         List<Game> games = null;
         try {
-            games = Game.getGames(User.getUser("testi", "testi"));
+            games = Game.getGames(loggedIn.getID());
         } catch (SQLException ex) {
             Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        request.setAttribute("user", loggedIn);
         request.setAttribute("games", games);
         showJSP("games.jsp", request, response);
 

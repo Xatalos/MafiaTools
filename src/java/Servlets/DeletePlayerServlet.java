@@ -39,6 +39,8 @@ public class DeletePlayerServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+        
         String idString = request.getParameter("id");
         String name = request.getParameter("name");
         int id = Integer.parseInt(idString);
@@ -47,16 +49,24 @@ public class DeletePlayerServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Player.deletePlayer(id);
+                if (Player.getPlayer(id).getUserid() != loggedIn.getID()) {
+                    setError("Stop trying to hack the database!", request);
+                    showJSP("index.jsp", request, response);
+                    logOut(session);
+                    return;
+                } else {
+                    Player.deletePlayer(id);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             List<Player> players = null;
             try {
-                players = Player.getPlayers(User.getUser("testi", "testi"));
+                players = Player.getPlayers(loggedIn.getID());
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            request.setAttribute("user", loggedIn);
             request.setAttribute("players", players);
             showJSP("players.jsp", request, response);
         }

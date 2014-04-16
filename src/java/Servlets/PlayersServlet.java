@@ -39,6 +39,8 @@ public class PlayersServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+        
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
             return;
@@ -46,10 +48,11 @@ public class PlayersServlet extends BaseServlet {
 
         List<Player> players = null;
         try {
-            players = Player.getPlayers(User.getUser("testi", "testi"));
+            players = Player.getPlayers(loggedIn.getID());
         } catch (SQLException ex) {
             Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        request.setAttribute("user", loggedIn);
         request.setAttribute("players", players);
         showJSP("players.jsp", request, response);
     }

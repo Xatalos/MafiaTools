@@ -1,5 +1,6 @@
 package Models;
 
+import static Models.Player.editPlayer;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -37,7 +38,7 @@ public class User {
 
     public User() {
     }
-    
+
     /**
      * Fetches a specific user from the database
      *
@@ -48,21 +49,20 @@ public class User {
      *
      * @return loggedIn the specified user
      */
-    public static User getUser(String username, String password) throws SQLException {
+    public static User getUser(String username) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
-            sql = "SELECT userid, name, password from username where name = ? and password = ?";
+            sql = "SELECT userid, name, password from username where name = ?";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
             query.setString(1, username);
-            query.setString(2, password);
             rs = query.executeQuery();
 
             //Alustetaan muuttuja, joka sisältää löydetyn käyttäjän
-            User loggedIn = null;
+            User user = null;
 
             //next-metodia on kutsuttava aina, kun käsitellään 
             //vasta kannasta saatuja ResultSet-olioita.
@@ -72,13 +72,13 @@ public class User {
             if (rs.next()) {
                 //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
                 //ja asetetaan palautettava olio:
-                loggedIn = new User();
-                loggedIn.setID(Integer.parseInt(rs.getString("userid")));
-                loggedIn.setName(rs.getString("name"));
-                loggedIn.setPassword(rs.getString("password"));
+                user = new User();
+                user.setID(Integer.parseInt(rs.getString("userid")));
+                user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
             }
 
-            return loggedIn;
+            return user;
 
         } finally {
             try {
@@ -127,6 +127,77 @@ public class User {
                 }
             }
             return users;
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public static void createUser(String name, String password) throws SQLException {
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet ids = null;
+        try {
+            sql = "INSERT INTO username(name, password) VALUES(?,?)";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+
+            query.setString(1, name);
+            query.setString(2, password);
+
+            ids = query.executeQuery();
+            ids.next();
+
+        } finally {
+            try {
+                ids.close();
+            } catch (Exception e) {
+            }
+            try {
+                query.close();
+            } catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public static boolean isNameAvailable(String name) throws SQLException {
+        String sql = null;
+        Connection connection = null;
+        PreparedStatement query = null;
+        ResultSet rs = null;
+        try {
+            sql = "SELECT name from username where name = ?";
+            connection = Database.getConnection();
+            query = connection.prepareStatement(sql);
+            query.setString(1, name);
+            rs = query.executeQuery();
+
+            User user = null;
+
+            if (rs.next()) {
+                user = new User();
+                user.setName(rs.getString("name"));
+            }
+            if (user == null) {
+                return true;
+            } else {
+                return false;
+            }
         } finally {
             try {
                 rs.close();

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for showing a specific Mafia player
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class PlayerServlet extends BaseServlet {
@@ -39,6 +39,8 @@ public class PlayerServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
             return;
@@ -53,6 +55,12 @@ public class PlayerServlet extends BaseServlet {
         }
         try {
             player = Player.getPlayer(id);
+            if (player.getUserid() != loggedIn.getID()) {
+                setError("Stop trying to hack the database!", request);
+                showJSP("index.jsp", request, response);
+                logOut(session);
+                return;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,7 +73,7 @@ public class PlayerServlet extends BaseServlet {
             setError("The player was not found!", request);
             List<Player> players = null;
             try {
-                players = Player.getPlayers(User.getUser("testi", "testi"));
+                players = Player.getPlayers(loggedIn.getID());
             } catch (SQLException ex) {
                 Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

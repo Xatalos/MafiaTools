@@ -55,7 +55,8 @@ public class ListaServlet extends BaseServlet {
             out.println("<h1>rikki</h1>");
         } else {
             for (User user : users) {
-//                asiat.add("<li>" + user.getName() + "</li>");
+//                asiat.add("<li>" + user.getName() + "</li>"); 
+//                tämä kommentoitu siksi että ei turhaan voisi vakoilla sivuston käyttäjien nimiä!
             }
         }
 

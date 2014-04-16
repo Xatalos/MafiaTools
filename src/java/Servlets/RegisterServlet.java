@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for creating a new user
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class RegisterServlet extends BaseServlet {
@@ -43,7 +43,7 @@ public class RegisterServlet extends BaseServlet {
          * Näytetään pelkkä lomake */
         if (name == null || name.equals("")) {
             setError("You didn't give a username!", request);
-            showJSP("index.jsp", request, response);
+            showJSP("register.jsp", request, response);
             return;
         }
 
@@ -52,28 +52,32 @@ public class RegisterServlet extends BaseServlet {
 
         if (password == null || password.equals("")) {
             setError("You didn't give a password!", request);
-            showJSP("index.jsp", request, response);
+            showJSP("register.jsp", request, response);
             return;
         }
-        
-        /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
-        if (name.equals("testi") && password.equals("testi")) {
-            /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
-            HttpSession session = request.getSession(true);
-            try {
-                user = User.getUser(name, password);
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-            if (user != null) {
-                session.setAttribute("loggedIn", user);
-            } else {
-                setError("Try again! Your username or password was incorrect.", request);
-                showJSP("index.jsp", request, response);
-            }
-            response.sendRedirect("Games");
+        boolean isNameAvailable = false;
+
+        try {
+            isNameAvailable = User.isNameAvailable(name);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        if (isNameAvailable == false) {
+            setError("The username '" + name + "' is already in use!", request);
+            showJSP("register.jsp", request, response);
+            return;
+        }
+        try {
+            User.createUser(name, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        setError("User '" + name + "' has been registered!", request);
+        showJSP("index.jsp", request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,6 +6,7 @@ package Servlets;
 
 import Models.Game;
 import Models.Participant;
+import Models.Player;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,15 +44,23 @@ public class EditGameServlet extends BaseServlet {
         int id = Integer.parseInt(idString);
         Game game = null;
         List<Participant> participants = null;
+
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
             try {
                 if (!name.equals("") && !name.isEmpty()) {
-                    participants = Participant.getParticipants(id);
-                    Game.renameGame(id, name);
+                    if (Game.getGame(id).getUserID() != loggedIn.getID()) {
+                        setError("Stop trying to hack the database!", request);
+                        showJSP("index.jsp", request, response);
+                        logOut(session);
+                        return;
+                    } else {
+                        Game.renameGame(id, name);
+                    }
                 }
                 game = Game.getGame(id);
             } catch (SQLException ex) {

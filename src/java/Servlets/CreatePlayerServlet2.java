@@ -6,6 +6,7 @@ package Servlets;
 
 import Models.Game;
 import Models.Player;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -40,6 +41,7 @@ public class CreatePlayerServlet2 extends BaseServlet {
         String name = request.getParameter("playername");
         String meta = request.getParameter("meta");
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
@@ -54,11 +56,12 @@ public class CreatePlayerServlet2 extends BaseServlet {
                     showJSP("createplayer.jsp", request, response);
                 } else {
                     try {
-                        Player.createPlayer(name, meta);
+                        Player.createPlayer(name, meta, loggedIn.getID());
                     } catch (SQLException ex) {
                         Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    response.sendRedirect("Players");
+                    request.setAttribute("user", loggedIn);
+                    showJSP("Players", request, response);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);

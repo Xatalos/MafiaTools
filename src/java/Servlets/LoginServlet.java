@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for logging in a specific user
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class LoginServlet extends BaseServlet {
@@ -35,7 +35,8 @@ public class LoginServlet extends BaseServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        
+        HttpSession session = null;
         String name = request.getParameter("username");
         String password = request.getParameter("password");
         User user = null;
@@ -56,25 +57,16 @@ public class LoginServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
             return;
         }
+        try {
+            user = User.getUser(name);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
-        if (name.equals("testi") && password.equals("testi")) {
-            /* Jos tunnus on oikea, ohjataan käyttäjä HTTP-ohjauksella kissalistaan. */
-            HttpSession session = request.getSession(true);
-            try {
-                user = User.getUser(name, password);
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (user != null) {
-                session.setAttribute("loggedIn", user);
-            } else {
-                setError("Try again! Your username or password was incorrect.", request);
-                showJSP("index.jsp", request, response);
-            }
-            
-            session.setAttribute("user", user);
+        if (user.getName().equals(name) && user.getPassword().equals(password)) {
+            session = request.getSession();
+            session.setAttribute("loggedIn", user);
             response.sendRedirect("Games");
         } else {
             setError("Try again! Your username or password was incorrect.", request);

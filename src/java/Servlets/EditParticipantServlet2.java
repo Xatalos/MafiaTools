@@ -6,6 +6,7 @@ package Servlets;
 
 import Models.Participant;
 import Models.Player;
+import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,6 +37,8 @@ public class EditParticipantServlet2 extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+
         String gameidString = request.getParameter("gameid");
         String playeridString = request.getParameter("playerid");
         String pointsString = request.getParameter("points");
@@ -51,9 +54,20 @@ public class EditParticipantServlet2 extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
+                if (Player.getPlayer(playerid).getUserid() != loggedIn.getID()) {
+                    setError("Stop trying to hack the database!", request);
+                    showJSP("index.jsp", request, response);
+                    logOut(session);
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EditParticipantServlet2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
                 points = Integer.parseInt(pointsString);
                 success = true;
                 Participant.editParticipant(gameid, playerid, points, notes, true);
+                request.removeAttribute("errorMessage");
             } catch (NumberFormatException ex) {
                 setError("You didn't enter a valid number for points!", request);
                 try {

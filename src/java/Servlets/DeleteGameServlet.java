@@ -5,6 +5,7 @@
 package Servlets;
 
 import Models.Game;
+import Models.Player;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for deleting a Mafia game
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class DeleteGameServlet extends BaseServlet {
@@ -38,6 +39,8 @@ public class DeleteGameServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+
         String idString = request.getParameter("id");
         String name = request.getParameter("name");
         int id = Integer.parseInt(idString);
@@ -46,16 +49,25 @@ public class DeleteGameServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Game.deleteGame(id);
+                if (Game.getGame(id).getUserID() != loggedIn.getID()) {
+                    setError("Stop trying to hack the database!", request);
+                    showJSP("index.jsp", request, response);
+                    logOut(session);
+                    return;
+                } else {
+                    Game.deleteGame(id);
+                }
+
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             List<Game> games = null;
             try {
-                games = Game.getGames(User.getUser("testi", "testi"));
+                games = Game.getGames(loggedIn.getID());
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            request.setAttribute("user", loggedIn);
             request.setAttribute("games", games);
             showJSP("games.jsp", request, response);
         }

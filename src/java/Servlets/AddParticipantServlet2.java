@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for adding a participant to a game
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class AddParticipantServlet2 extends BaseServlet {
@@ -39,8 +39,10 @@ public class AddParticipantServlet2 extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+
         String gameidString = request.getParameter("gameid");
         String playeridString = request.getParameter("playerid");
         int gameid = Integer.parseInt(gameidString);
@@ -51,7 +53,14 @@ public class AddParticipantServlet2 extends BaseServlet {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                Participant.addParticipant(gameid, playerid);
+                if (Player.getPlayer(playerid).getUserid() != loggedIn.getID()) {
+                    setError("Stop trying to hack the database!", request);
+                    showJSP("index.jsp", request, response);
+                    logOut(session);
+                    return;
+                } else {
+                    Participant.addParticipant(gameid, playerid);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

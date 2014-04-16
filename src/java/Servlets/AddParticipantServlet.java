@@ -39,6 +39,8 @@ public class AddParticipantServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+        
         String gameidString = request.getParameter("id");
         int gameid = Integer.parseInt(gameidString);
         if (!isLoggedIn(session)) {
@@ -48,7 +50,7 @@ public class AddParticipantServlet extends BaseServlet {
         List<Player> players = null;
         Game game = null;
         try {
-            players = Player.getPlayers(User.getUser("testi", "testi"));
+            players = Player.getPlayers(loggedIn.getID());
         } catch (SQLException ex) {
             Logger.getLogger(GamesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

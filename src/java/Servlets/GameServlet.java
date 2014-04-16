@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * A servlet for viewing a single Mafia game
- * 
+ *
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
 public class GameServlet extends BaseServlet {
@@ -39,6 +39,8 @@ public class GameServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        User loggedIn = (User) session.getAttribute("loggedIn");
+
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
             return;
@@ -55,6 +57,12 @@ public class GameServlet extends BaseServlet {
         try {
             game = Game.getGame(id);
             gameid = game.getId();
+            if (game.getUserID() != loggedIn.getID()) {
+                setError("Stop trying to hack the database!", request);
+                showJSP("index.jsp", request, response);
+                logOut(session);
+                return;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,7 +82,7 @@ public class GameServlet extends BaseServlet {
             setError("The game was not found!", request);
             List<Game> games = null;
             try {
-                games = Game.getGames(User.getUser("testi", "testi"));
+                games = Game.getGames(loggedIn.getID());
             } catch (SQLException ex) {
                 Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

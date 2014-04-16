@@ -65,15 +65,16 @@ public class Game {
      *
      * @return games all the games created by a specified user
      */
-    public static List<Game> getGames(User user) throws SQLException {
+    public static List<Game> getGames(int userid) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet results = null;
         try {
-            sql = "SELECT gameid, gamename, userid from game ORDER BY gamename";
+            sql = "SELECT gameid, gamename, game.userid from game, username where game.userid = username.userid and username.userid = ? ORDER BY gamename";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
+            query.setInt(1, userid);
             results = query.executeQuery();
 
             List<Game> games = new ArrayList<Game>();
@@ -233,7 +234,7 @@ public class Game {
      * @throws SQLException if an SQL error occurs
      * @throws namingException if a naming error occurs
      */
-    public static void createGame(String name) throws NamingException, SQLException {
+    public static void createGame(String name, int userid) throws NamingException, SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
@@ -244,7 +245,7 @@ public class Game {
             query = connection.prepareStatement(sql);
 
             query.setString(1, name);
-            query.setInt(2, 1);
+            query.setInt(2, userid);
 
             ids = query.executeQuery();
             ids.next();
