@@ -119,7 +119,7 @@ public class Participant {
         PreparedStatement query = null;
         ResultSet results = null;
         try {
-            sql = "SELECT gameid, playerid, points, notes from participant where gameid = ?";
+            sql = "SELECT gameid, participant.playerid, playername, points, notes from participant, player where gameid = ? and participant.playerid = player.playerid order by playername";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
             query.setInt(1, gameid);
