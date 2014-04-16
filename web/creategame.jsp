@@ -7,6 +7,11 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:base pageTitle="MafiaTools Create Game">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Games</a></li>
+        <li><a href="Players">Players</a></li>
+        <li><a href="Logout">Log Out</a></li>
+    </ul>
     <div class="container">
         <h1>Create Game</h1>
         <form class="form-horizontal" action="CreateGame2" method="POST">

@@ -8,6 +8,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:base pageTitle="MafiaTools Player">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Games</a></li>
+        <li><a href="Players">Players</a></li>
+        <li><a href="Logout">Log Out</a></li>
+    </ul>
     <div class="container">
         <h1><c:out value="${player.name}"/></h1>
         <form class="form-horizontal" action="EditPlayer" method="POST">
