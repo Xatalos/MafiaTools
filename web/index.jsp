@@ -13,7 +13,7 @@
             <div class="form-group">
                 <label for="inputEmail1" class="col-md-2 control-label">Username</label>
                 <div class="col-md-10">
-                    <input type="text" class="form-control" id="inputEmail1" name="username" placeholder="Username">
+                    <input type="text" class="form-control" id="inputEmail1" name="username" value="${username}" placeholder="Username">
                 </div>
             </div>
             <div class="form-group">

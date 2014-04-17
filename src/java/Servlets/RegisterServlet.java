@@ -39,16 +39,11 @@ public class RegisterServlet extends BaseServlet {
         String password = request.getParameter("password");
         User user = null;
 
-        /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
-         * Näytetään pelkkä lomake */
         if (name == null || name.equals("")) {
             setError("You didn't give a username!", request);
             showJSP("register.jsp", request, response);
             return;
         }
-
-        /* Välitetään näkymille tieto siitä, mikä tunnus yritti kirjautumista */
-        request.setAttribute("username", name);
 
         if (password == null || password.equals("")) {
             setError("You didn't give a password!", request);

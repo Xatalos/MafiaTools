@@ -119,14 +119,14 @@ public class Participant {
             }
         }
     }
-    
+
     /**
-     * Fetches all the participants (players) of a single game
+     * Fetches all the participants of (players related to) a single game
      *
      * @param gameid the identification number of the game
      *
      * @throws SQLException if an SQL error occurs
-     * 
+     *
      * @return participants a list of the participating players
      */
     public static List<Participant> getParticipants(int gameid) throws SQLException {
@@ -177,7 +177,7 @@ public class Participant {
             }
         }
     }
-    
+
     /**
      * Fetches a since participant (game<->player connection)
      *
@@ -185,7 +185,7 @@ public class Participant {
      * @param playerid the identification number of the player
      *
      * @throws SQLException if an SQL error occurs
-     * 
+     *
      * @return participant a single participant
      */
     public static Participant getParticipant(int gameid, int playerid) throws SQLException {
@@ -233,7 +233,7 @@ public class Participant {
             }
         }
     }
-    
+
     /**
      * Edits the information of a single participant
      *
@@ -250,6 +250,8 @@ public class Participant {
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
+            // if the user has entered a valid number into the points field, update points, 
+            // notes and meta information - otherwise only notes and meta information!
             if (success == true) {
                 sql = "UPDATE participant SET points = ?, notes = ? WHERE gameid = ? and playerid = ?";
                 connection = Database.getConnection();
@@ -283,7 +285,7 @@ public class Participant {
             }
         }
     }
-    
+
     /**
      * Removes a single participant (game<->player connection) from the database
      *

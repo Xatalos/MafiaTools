@@ -41,15 +41,13 @@ public class LoginServlet extends BaseServlet {
         String password = request.getParameter("password");
         User user = null;
 
-        /* Jos kummatkin parametrit ovat null, käyttäjä ei ole edes yrittänyt vielä kirjautua. 
-         * Näytetään pelkkä lomake */
         if (name == null || name.equals("")) {
             setError("You didn't give a username!", request);
             showJSP("index.jsp", request, response);
             return;
         }
-
-        /* Välitetään näkymille tieto siitä, mikä tunnus yritti kirjautumista */
+        
+        // sets the new default username as the previously entered username
         request.setAttribute("username", name);
 
         if (password == null || password.equals("")) {
@@ -62,9 +60,9 @@ public class LoginServlet extends BaseServlet {
         } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
-        if (user.getName().equals(name) && user.getPassword().equals(password)) {
+        
+        // does the user by that name exist & is the password correct?
+        if (user != null && user.getPassword().equals(password)) {
             session = request.getSession();
             session.setAttribute("loggedIn", user);
             response.sendRedirect("Games");

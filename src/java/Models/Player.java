@@ -232,6 +232,8 @@ public class Player {
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
+            // if the user hasn't entered anything into the name field, update only the 
+            // meta information - otherwise both name and meta!
             if (name.equals("") || name.isEmpty()) {
                 sql = "UPDATE player SET meta = ? WHERE playerid = ?";
                 connection = Database.getConnection();

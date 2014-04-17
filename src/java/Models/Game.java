@@ -80,7 +80,6 @@ public class Game {
             List<Game> games = new ArrayList<Game>();
             while (results.next()) {
                 try {
-                    //Luodaan tuloksia vastaava olio ja palautetaan olio:
                     Game game = new Game();
                     game.setId(Integer.parseInt(results.getString("gameid")));
                     game.setName(results.getString("gamename"));
