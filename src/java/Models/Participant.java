@@ -92,12 +92,13 @@ public class Participant {
         PreparedStatement query = null;
         ResultSet ids = null;
         try {
-            sql = "INSERT INTO participant(gameid, playerid) VALUES(?,?)";
+            sql = "INSERT INTO participant(gameid, playerid, points) VALUES(?,?,?)";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
 
             query.setInt(1, gameid);
             query.setInt(2, playerid);
+            query.setInt(3, 0);
 
             ids = query.executeQuery();
             ids.next();
