@@ -51,7 +51,7 @@ public class CreatePlayerServlet2 extends BaseServlet {
                 showJSP("createplayer.jsp", request, response);
             }
             try {
-                if (Player.isNameAvailable(name) == false) {
+                if (Player.isNameAvailable(name, loggedIn.getID()) == false) {
                     setError("A player with that name already exists!", request);
                     showJSP("createplayer.jsp", request, response);
                 } else {

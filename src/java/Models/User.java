@@ -43,11 +43,10 @@ public class User {
      * Fetches a specific user from the database
      *
      * @param username the name of the user
-     * @param password the password of the user
      *
      * @throws SQLException if an SQL error occurs
      *
-     * @return loggedIn the specified user
+     * @return user the specified user
      */
     public static User getUser(String username) throws SQLException {
         String sql = null;
@@ -61,17 +60,9 @@ public class User {
             query.setString(1, username);
             rs = query.executeQuery();
 
-            //Alustetaan muuttuja, joka sisältää löydetyn käyttäjän
             User user = null;
 
-            //next-metodia on kutsuttava aina, kun käsitellään 
-            //vasta kannasta saatuja ResultSet-olioita.
-            //ResultSet on oletuksena ensimmäistä edeltävällä -1:llä rivillä.
-            //Kun sitä kutsuu ensimmäisen kerran siirtyy se ensimmäiselle riville 0.
-            //Samalla metodi myös palauttaa tiedon siitä onko seuraavaa riviä olemassa.
             if (rs.next()) {
-                //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
-                //ja asetetaan palautettava olio:
                 user = new User();
                 user.setID(Integer.parseInt(rs.getString("userid")));
                 user.setName(rs.getString("name"));
@@ -117,7 +108,6 @@ public class User {
             users = new ArrayList<User>();
             while (results.next()) {
                 try {
-                    //Luodaan tuloksia vastaava olio ja palautetaan olio:
                     User user = new User();
                     user.setName(results.getString("name"));
 
@@ -143,6 +133,14 @@ public class User {
         }
     }
 
+    /**
+     * Inserts a new user into the database
+     *
+     * @param name the name of the new user
+     * @param the password of the new user
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void createUser(String name, String password) throws SQLException {
         String sql = null;
         Connection connection = null;
@@ -175,6 +173,15 @@ public class User {
         }
     }
 
+    /**
+     * Checks if the specified name is available for a new user
+     *
+     * @param name the searched player name
+     *
+     * @throws SQLException if an SQL error occurs
+     *
+     * @return true if the name is available, false if not
+     */
     public static boolean isNameAvailable(String name) throws SQLException {
         String sql = null;
         Connection connection = null;

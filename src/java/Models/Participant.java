@@ -78,6 +78,14 @@ public class Participant {
         this.meta = meta;
     }
 
+    /**
+     * Inserts a new participant (game<->player connection) into the database
+     *
+     * @param gameid the identification number of the game
+     * @param playerid the identification number of the game
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void addParticipant(int gameid, int playerid) throws SQLException {
         String sql = null;
         Connection connection = null;
@@ -94,8 +102,6 @@ public class Participant {
             ids = query.executeQuery();
             ids.next();
 
-            //Haetaan RETURNING-määreen palauttama id.
-            //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
             int id = ids.getInt(1);
         } finally {
             try {
@@ -112,7 +118,16 @@ public class Participant {
             }
         }
     }
-
+    
+    /**
+     * Fetches all the participants (players) of a single game
+     *
+     * @param gameid the identification number of the game
+     *
+     * @throws SQLException if an SQL error occurs
+     * 
+     * @return participants a list of the participating players
+     */
     public static List<Participant> getParticipants(int gameid) throws SQLException {
         String sql = null;
         Connection connection = null;
@@ -129,7 +144,6 @@ public class Participant {
             List<Participant> participants = new ArrayList<Participant>();
             while (results.next()) {
                 try {
-                    //Luodaan tuloksia vastaava olio ja palautetaan olio:
                     player = Player.getPlayer(Integer.parseInt(results.getString("playerid")));
                     Participant participant = new Participant();
                     participant.setGameid(Integer.parseInt(results.getString("gameid")));
@@ -162,7 +176,17 @@ public class Participant {
             }
         }
     }
-
+    
+    /**
+     * Fetches a since participant (game<->player connection)
+     *
+     * @param gameid the identification number of the game
+     * @param playerid the identification number of the player
+     *
+     * @throws SQLException if an SQL error occurs
+     * 
+     * @return participant a single participant
+     */
     public static Participant getParticipant(int gameid, int playerid) throws SQLException {
         String sql = null;
         Connection connection = null;
@@ -208,7 +232,17 @@ public class Participant {
             }
         }
     }
-
+    
+    /**
+     * Edits the information of a single participant
+     *
+     * @param gameid the identification number of the game
+     * @param playerid the identification number of the player
+     * @param points the points related to the participant
+     * @param notes the notes related to the participant
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void editParticipant(int gameid, int playerid, int points, String notes, boolean success) throws SQLException {
         String sql = null;
         Connection connection = null;
@@ -248,7 +282,15 @@ public class Participant {
             }
         }
     }
-
+    
+    /**
+     * Removes a single participant (game<->player connection) from the database
+     *
+     * @param gameid the identification number of the game
+     * @param playerid the identification number of the player
+     *
+     * @throws SQLException if an SQL error occurs
+     */
     public static void removeParticipant(int gameid, int playerid) throws SQLException {
         String sql = null;
         Connection connection = null;

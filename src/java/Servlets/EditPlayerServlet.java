@@ -56,7 +56,7 @@ public class EditPlayerServlet extends BaseServlet {
                     logOut(session);
                     return;
                 } else {
-                    if (Player.isNameAvailable(name) == false) {
+                    if (Player.isNameAvailable(name, loggedIn.getID()) == false) {
                         setError("A player with that name already exists!", request);
                         name = "";
                         try {

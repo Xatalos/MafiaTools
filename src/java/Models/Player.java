@@ -70,7 +70,7 @@ public class Player {
     /**
      * Fetches all the players created by a specified user from the database
      *
-     * @param user the specified user
+     * @param userid the identification number of the specified user
      *
      * @return players all the players created by a specified user
      */
@@ -120,10 +120,12 @@ public class Player {
     }
 
     /**
-     * Inserts a new player to the database
+     * Inserts a new player into the database
      *
      * @param name the name of the new player
      * @param meta the meta information for the new player
+     * @param userid the identification number of the user who creates the
+     * player
      *
      * @throws SQLException if an SQL error occurs
      */
@@ -296,16 +298,26 @@ public class Player {
         }
     }
 
-    public static boolean isNameAvailable(String name) throws SQLException {
+    /**
+     * Checks if the specified name is available for a new or renamed player
+     *
+     * @param name the searched player name
+     * @param userid the identification number of the user whose player names
+     * will be checked
+     *
+     * @throws SQLException if an SQL error occurs
+     */
+    public static boolean isNameAvailable(String name, int userid) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
-            sql = "SELECT playerid, playername, meta, userid from player where playername = ?";
+            sql = "SELECT playerid, playername, meta, userid from player where playername = ? and userid = ?";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
             query.setString(1, name);
+            query.setInt(2, userid);
             rs = query.executeQuery();
 
             Player player = null;

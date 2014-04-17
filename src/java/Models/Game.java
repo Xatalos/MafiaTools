@@ -61,7 +61,7 @@ public class Game {
     /**
      * Fetches all the games created by a specified user from the database
      *
-     * @param user the specified user
+     * @param userid the identification number of the specified user
      *
      * @return games all the games created by a specified user
      */
@@ -227,9 +227,10 @@ public class Game {
     }
 
     /**
-     * Inserts a new game to the database
+     * Inserts a new game into the database
      *
      * @param name the name of the new game
+     * @param userid the identification number of the user who creates the game
      *
      * @throws SQLException if an SQL error occurs
      * @throws namingException if a naming error occurs
@@ -250,10 +251,6 @@ public class Game {
             ids = query.executeQuery();
             ids.next();
 
-            //Haetaan RETURNING-määreen palauttama id.
-            //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
-            int id = ids.getInt(1);
-            //return Game.getGame(id);
         } finally {
             try {
                 ids.close();
