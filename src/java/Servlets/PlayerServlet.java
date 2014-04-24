@@ -58,7 +58,6 @@ public class PlayerServlet extends BaseServlet {
             if (player.getUserid() != loggedIn.getID()) {
                 setError("Stop trying to hack the database!", request);
                 showJSP("index.jsp", request, response);
-                logOut(session);
                 return;
             }
         } catch (SQLException ex) {

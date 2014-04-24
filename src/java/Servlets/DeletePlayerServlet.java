@@ -52,7 +52,6 @@ public class DeletePlayerServlet extends BaseServlet {
                 if (Player.getPlayer(id).getUserid() != loggedIn.getID()) {
                     setError("Stop trying to hack the database!", request);
                     showJSP("index.jsp", request, response);
-                    logOut(session);
                     return;
                 } else {
                     Player.deletePlayer(id);

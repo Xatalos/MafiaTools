@@ -56,7 +56,6 @@ public class EditGameServlet extends BaseServlet {
                     if (Game.getGame(id).getUserID() != loggedIn.getID()) {
                         setError("Stop trying to hack the database!", request);
                         showJSP("index.jsp", request, response);
-                        logOut(session);
                         return;
                     } else {
                         Game.renameGame(id, name);

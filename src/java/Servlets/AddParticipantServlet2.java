@@ -58,7 +58,6 @@ public class AddParticipantServlet2 extends BaseServlet {
                 if (Player.getPlayer(playerid).getUserid() != loggedIn.getID()) {
                     setError("Stop trying to hack the database!", request);
                     showJSP("index.jsp", request, response);
-                    logOut(session);
                     return;
                 } else {
                     Participant.addParticipant(gameid, playerid);
