@@ -49,23 +49,25 @@ public class CreatePlayerServlet2 extends BaseServlet {
             if (name == null || name.equals("")) {
                 setError("You didn't give a name!", request);
                 showJSP("createplayer.jsp", request, response);
-            }
-            try {
-                if (Player.isNameAvailable(name, loggedIn.getID()) == false) {
-                    setError("A player with that name already exists!", request);
-                    showJSP("createplayer.jsp", request, response);
-                } else {
-                    try {
-                        Player.createPlayer(name, meta, loggedIn.getID());
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                try {
+                    if (Player.isNameAvailable(name, loggedIn.getID()) == false) {
+                        setError("A player with that name already exists!", request);
+                        showJSP("createplayer.jsp", request, response);
+                    } else {
+                        try {
+                            Player.createPlayer(name, meta, loggedIn.getID());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        request.setAttribute("user", loggedIn);
+                        showJSP("Players", request, response);
                     }
-                    request.setAttribute("user", loggedIn);
-                    showJSP("Players", request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
     }
 

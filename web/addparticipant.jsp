@@ -15,6 +15,7 @@
     </ul>
     <div class="container">
         <h1>Players</h1>
+        <a href="Game?id=${gameid}"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -31,10 +32,5 @@
                 </c:forEach>
             </tbody>
         </table>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <a href="Game?id=${gameid}"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
-            </div>
-        </div>
     </div>
 </t:base>

@@ -18,6 +18,8 @@
             <h1><c:out value="${game.name}"/></h1>
             <input type="text" class="form-control" id="inputEmail1" name="gamename" placeholder="Rename Game">
             <input type="hidden" name="id" value="${game.id}">
+            <a href="Games"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+            <button type="submit" class="btn btn-xs btn-default">Rename Game</button>
             <a href="AddParticipant?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
             <a href="CreatePlayer"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a>
             <table class="table table-striped">
@@ -44,12 +46,6 @@
                     </c:forEach>
                 </tbody>
             </table>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <a href="Games"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
-                    <button type="submit" class="btn btn-xs btn-default">Rename Game</button>
-                </div>
-            </div>
         </form>
     </div>
 </t:base>
