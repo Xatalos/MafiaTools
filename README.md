@@ -8,7 +8,7 @@
       <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/html-demo/index.html">HTML-demosivusto</a></li>
       <li><a href="http://t-teesalmi.users.cs.helsinki.fi/ConnectionTest">ConnectionTest</a></li>
       <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/Listaustesti">Listaustesti</a></li>
-      <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/index.jsp">Sovelluksen kirjautumissivu</a> (peliä "Kingdom Mafia 30" tai siihen liittyviä pelaajia ei saa muokata/poistaa, koska se on oikea meneillään oleva peli sivuston testaamista varten!)</li>
+      <li><a href="http://t-teesalmi.users.cs.helsinki.fi/MafiaTools/index.jsp">Sovelluksen kirjautumissivu</a></li>
 </ul>
 <p class="p5"><br></p>
 <h2 style="margin: 0.0px 0.0px 11.0px 0.0px; font: 13.0px Times"><b>Työn aihe</b></h2>
