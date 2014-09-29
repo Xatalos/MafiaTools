@@ -38,6 +38,7 @@ public class CreateGameServlet2 extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         User loggedIn = (User) session.getAttribute("loggedIn");
         String name = request.getParameter("gamename");
 
@@ -56,7 +57,7 @@ public class CreateGameServlet2 extends BaseServlet {
                     Logger.getLogger(CreateGameServlet2.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 request.setAttribute("user", loggedIn);
-                showJSP("Games", request, response);
+                response.sendRedirect("Games");
             }
 
         }

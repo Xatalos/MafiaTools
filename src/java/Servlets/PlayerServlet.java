@@ -39,7 +39,15 @@ public class PlayerServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         User loggedIn = (User) session.getAttribute("loggedIn");
+
+        String gameidString = request.getParameter("gameid");
+        int gameid = Integer.parseInt(gameidString);
+
+        int points = 0;
+        String notes = "";
+        String rolenotes = "";
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
@@ -53,9 +61,10 @@ public class PlayerServlet extends BaseServlet {
             id = Integer.parseInt(idParam);
         } catch (Exception e) {
         }
+
         try {
             player = Player.getPlayer(id);
-            if (player.getUserid() != loggedIn.getID()) {
+            if (Game.getGame(Player.getPlayer(id).getGameid()).getUserID() != loggedIn.getID()) {
                 setError("Stop trying to hack the database!", request);
                 showJSP("index.jsp", request, response);
                 return;
@@ -66,6 +75,7 @@ public class PlayerServlet extends BaseServlet {
 
         if (player != null) {
             request.setAttribute("player", player);
+            request.setAttribute("gameid", gameid);
             showJSP("player.jsp", request, response);
         } else {
             request.setAttribute("game", null);
@@ -77,7 +87,7 @@ public class PlayerServlet extends BaseServlet {
                 Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("players", players);
-            showJSP("players.jsp", request, response);
+            showJSP("Game?id=" + gameid, request, response);
         }
     }
 

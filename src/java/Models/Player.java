@@ -22,14 +22,18 @@ public class Player {
 
     private int id;
     private String name;
-    private String meta;
-    private int userid;
+    private int points;
+    private String notes;
+    private String rolenotes;
+    private int gameid;
 
-    public Player(int id, String name, String meta, int userid) {
+    public Player(int id, String name, int points, String notes, String rolenotes, int gameid) {
         this.id = id;
         this.name = name;
-        this.meta = meta;
-        this.userid = userid;
+        this.points = points;
+        this.notes = notes;
+        this.rolenotes = rolenotes;
+        this.gameid = gameid;
     }
 
     public Player() {
@@ -43,12 +47,20 @@ public class Player {
         return name;
     }
 
-    public String getMeta() {
-        return meta;
+    public int getPoints() {
+        return points;
     }
 
-    public int getUserid() {
-        return userid;
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getRolenotes() {
+        return rolenotes;
+    }
+
+    public int getGameid() {
+        return gameid;
     }
 
     public void setId(int id) {
@@ -59,42 +71,54 @@ public class Player {
         this.name = name;
     }
 
-    public void setMeta(String meta) {
-        this.meta = meta;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setRolenotes(String rolenotes) {
+        this.rolenotes = rolenotes;
+    }
+
+    public void setGameid(int gameid) {
+        this.gameid = gameid;
     }
 
     /**
-     * Fetches all the players created by a specified user from the database
+     * Fetches all the players in a specified game from the database
      *
-     * @param userid the identification number of the specified user
+     * @param gameid the identification number of the specified game
      *
-     * @return players all the players created by a specified user
+     * @return players all the players in a specified game
      */
-    public static List<Player> getPlayers(int userid) throws SQLException {
-        List<Player> players = null;
+    public static List<Player> getPlayers(int gameid) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet results = null;
         try {
-            sql = "SELECT playerid, playername, meta, player.userid from player, username where username.userid = player.userid and username.userid = ? ORDER BY playername";
+            sql = "SELECT playerid, playername, points, notes, rolenotes, gameid from player where gameid = ? order by points, playername";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
-            query.setInt(1, userid);
+            query.setInt(1, gameid);
             results = query.executeQuery();
 
-            players = new ArrayList<Player>();
+            Player player = null;
+            List<Player> players = new ArrayList<Player>();
             while (results.next()) {
                 try {
-                    Player player = new Player();
+                    player = new Player();
                     player.setId(Integer.parseInt(results.getString("playerid")));
+                    if (results.getString("points") != null) {
+                        player.setPoints(Integer.parseInt(results.getString("points")));
+                    }
+                    player.setNotes(results.getString("notes"));
                     player.setName(results.getString("playername"));
-                    player.setMeta(results.getString("meta"));
-                    player.setUserid(Integer.parseInt(results.getString("userid")));
+                    player.setRolenotes(results.getString("rolenotes"));
+                    player.setGameid(Integer.parseInt(results.getString("gameid")));
 
                     players.add(player);
                 } catch (SQLException ex) {
@@ -124,24 +148,23 @@ public class Player {
      *
      * @param name the name of the new player
      * @param meta the meta information for the new player
-     * @param userid the identification number of the user who creates the
-     * player
+     * @param gameid the identification number of the game
      *
      * @throws SQLException if an SQL error occurs
      */
-    public static void createPlayer(String name, String meta, int userid) throws SQLException {
+    public static void createPlayer(String name, int gameid) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet ids = null;
         try {
-            sql = "INSERT INTO player(playername, meta, userid) VALUES(?,?,?) RETURNING playerid";
+            sql = "INSERT INTO player(playername, points, gameid) VALUES(?,?,?) RETURNING playerid";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
 
             query.setString(1, name);
-            query.setString(2, meta);
-            query.setInt(3, userid);
+            query.setInt(2, 0);
+            query.setInt(3, gameid);
 
             ids = query.executeQuery();
             ids.next();
@@ -149,7 +172,7 @@ public class Player {
             //Haetaan RETURNING-määreen palauttama id.
             //HUOM! Tämä toimii ainoastaan PostgreSQL-kannalla!
             int id = ids.getInt(1);
-            editPlayer(id, name, meta);
+            //editPlayer(id, name, 0, "", "", true);
         } finally {
             try {
                 ids.close();
@@ -183,7 +206,7 @@ public class Player {
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
-            sql = "SELECT playerid, playername, meta, userid from player where playerid = ?";
+            sql = "SELECT playerid, playername, points, notes, rolenotes, gameid from player where playerid = ?";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
             query.setInt(1, id);
@@ -195,9 +218,13 @@ public class Player {
             if (rs.next()) {
                 player = new Player();
                 player.setId(Integer.parseInt(rs.getString("playerid")));
+                if (rs.getString("points") != null) {
+                    player.setPoints(Integer.parseInt(rs.getString("points")));
+                }
+                player.setNotes(rs.getString("notes"));
                 player.setName(rs.getString("playername"));
-                player.setMeta(rs.getString("meta"));
-                player.setUserid(Integer.parseInt(rs.getString("userid")));
+                player.setRolenotes(rs.getString("rolenotes"));
+                player.setGameid(Integer.parseInt(rs.getString("gameid")));
             }
             return player;
         } finally {
@@ -218,36 +245,34 @@ public class Player {
     }
 
     /**
-     * Edits the name and/or meta information of a specific player
-     *
-     * @param id the identification number of the player
-     * @param name the new name of the player
-     * @param meta the new meta information for the player
-     *
-     * @throws SQLException if an SQL error occurs
+     * Edits the information of a specific player
      */
-    public static void editPlayer(int id, String name, String meta) throws SQLException {
+    public static void editPlayer(int id, String name, int points, String notes, String rolenotes, boolean success) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
-            // if the user hasn't entered anything into the name field, update only the 
-            // meta information - otherwise both name and meta!
-            if (name.equals("") || name.isEmpty()) {
-                sql = "UPDATE player SET meta = ? WHERE playerid = ?";
-                connection = Database.getConnection();
-                query = connection.prepareStatement(sql);
-                query.setString(1, meta);
-                query.setInt(2, id);
-                rs = query.executeQuery();
-            } else {
-                sql = "UPDATE player SET playername = ?, meta = ? WHERE playerid = ?";
+            // if the user has entered a valid number into the points field, update points, 
+            // notes and meta information - otherwise only notes and meta information!
+            if (success == true) {
+                sql = "UPDATE player SET playername = ?, points = ?, notes = ?, rolenotes = ? WHERE playerid = ?";
                 connection = Database.getConnection();
                 query = connection.prepareStatement(sql);
                 query.setString(1, name);
-                query.setString(2, meta);
-                query.setInt(3, id);
+                query.setInt(2, points);
+                query.setString(3, notes);
+                query.setString(4, rolenotes);
+                query.setInt(5, id);
+                rs = query.executeQuery();
+            } else {
+                sql = "UPDATE player SET playername = ?, notes = ?, rolenotes = ? WHERE playerid = ?";
+                connection = Database.getConnection();
+                query = connection.prepareStatement(sql);
+                query.setString(1, name);
+                query.setString(2, notes);
+                query.setString(3, rolenotes);
+                query.setInt(4, id);
                 rs = query.executeQuery();
             }
         } finally {
@@ -304,22 +329,21 @@ public class Player {
      * Checks if the specified name is available for a new or renamed player
      *
      * @param name the searched player name
-     * @param userid the identification number of the user whose player names
-     * will be checked
+     * @param gameid the identification number of game will be checked
      *
      * @throws SQLException if an SQL error occurs
      */
-    public static boolean isNameAvailable(String name, int userid) throws SQLException {
+    public static boolean isNameAvailable(String name, int gameid) throws SQLException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
         ResultSet rs = null;
         try {
-            sql = "SELECT playerid, playername, meta, userid from player where playername = ? and userid = ?";
+            sql = "SELECT playerid, playername from player where playername = ? and gameid = ?";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
             query.setString(1, name);
-            query.setInt(2, userid);
+            query.setInt(2, gameid);
             rs = query.executeQuery();
 
             Player player = null;
@@ -329,8 +353,7 @@ public class Player {
                 player = new Player();
                 player.setId(Integer.parseInt(rs.getString("playerid")));
                 player.setName(rs.getString("playername"));
-                player.setMeta(rs.getString("meta"));
-                player.setUserid(Integer.parseInt(rs.getString("userid")));
+                player.setGameid(gameid);
             }
             if (player == null) {
                 return true;

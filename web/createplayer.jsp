@@ -9,12 +9,12 @@
 <t:base pageTitle="MafiaTools Create Player">
     <ul class="nav nav-tabs">
         <li><a href="Games">Games</a></li>
-        <li><a href="Players">Players</a></li>
         <li><a href="Logout">Log Out</a></li>
     </ul>
     <div class="container">
-        <h1>Create Player</h1>
+        <h1>Add Player</h1>
         <form class="form-horizontal" action="CreatePlayer2" method="POST">
+            <input type="hidden" name="gameid" value="${gameid}">
             <div class="form-group">
                 <label for="inputEmail1" class="col-md-2 control-label">Player Name</label>
                 <div class="col-md-10">
@@ -22,14 +22,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputEmail1" class="col-md-2 control-label">Meta Information</label>
-                <div class="col-md-10">
-                    <textarea cols="70" rows="6" name="meta" wrap="hard"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href="Players"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
+                    <a href="Game?id=${gameid}"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
                     <button type="submit" class="btn btn-xs btn-default">Save Changes</button>
                 </div>
             </div>

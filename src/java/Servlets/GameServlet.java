@@ -6,6 +6,7 @@ package Servlets;
 
 import Models.Game;
 import Models.Participant;
+import Models.Player;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +40,7 @@ public class GameServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         User loggedIn = (User) session.getAttribute("loggedIn");
 
         if (!isLoggedIn(session)) {
@@ -67,13 +69,13 @@ public class GameServlet extends BaseServlet {
         }
 
         if (game != null) {
-            List<Participant> participants = null;
+            List<Player> players = null;
             try {
-                participants = Participant.getParticipants(gameid);
+                players = Player.getPlayers(gameid);
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            request.setAttribute("participants", participants);
+            request.setAttribute("players", players);
             request.setAttribute("game", game);
             showJSP("game.jsp", request, response);
         } else {

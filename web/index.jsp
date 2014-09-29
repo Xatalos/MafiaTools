@@ -26,6 +26,7 @@
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-default">Log In</button>
                     <a href="register.jsp"><button type="button" class="btn btn-default">Register</button></a>
+                    <a href="c9setup.html"><button type="button" class="btn btn-default">C9++ Setup Generator</button></a>
                 </div>
             </div>
         </form>

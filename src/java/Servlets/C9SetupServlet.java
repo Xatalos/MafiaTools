@@ -4,16 +4,12 @@
  */
 package Servlets;
 
+import Models.C9Logic;
 import Models.Game;
-import Models.Participant;
-import Models.Player;
-import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * A servlet for adding a participant to a game
- *
+ * A servlet for showing the JSP page for generating a new C9++ setup
+ * 
  * @author Teemu Salminen <teemujsalminen@gmail.com>
  */
-public class AddParticipantServlet2 extends BaseServlet {
+public class C9SetupServlet extends BaseServlet {
 
     /**
      * Processes requests for both HTTP
@@ -41,43 +37,15 @@ public class AddParticipantServlet2 extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         HttpSession session = request.getSession();
-        User loggedIn = (User) session.getAttribute("loggedIn");
-
-        String gameidString = request.getParameter("gameid");
-        String playeridString = request.getParameter("playerid");
-        int gameid = Integer.parseInt(gameidString);
-        int playerid = Integer.parseInt(playeridString);
-        Game game = null;
-
-        if (!isLoggedIn(session)) {
-            showJSP("index.jsp", request, response);
-        } else {
-            try {
-                if (Player.getPlayer(playerid).getUserid() != loggedIn.getID()) {
-                    setError("Stop trying to hack the database!", request);
-                    showJSP("index.jsp", request, response);
-                    return;
-                } else {
-                    Participant.addParticipant(gameid, playerid);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            List<Participant> participants = null;
-            try {
-                game = Game.getGame(gameid);
-                participants = Participant.getParticipants(gameid);
-            } catch (SQLException ex) {
-                Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.setAttribute("participants", participants);
-            showJSP("Game?id=" + gameid, request, response);
-        }
+        request.setCharacterEncoding("UTF-8");
+        C9Logic logic = new C9Logic();
+        List<String> roles = logic.getRoles();
+        request.setAttribute("roles", roles);
+        showJSP("c9setup.jsp", request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.

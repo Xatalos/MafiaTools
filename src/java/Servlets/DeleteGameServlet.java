@@ -39,6 +39,7 @@ public class DeleteGameServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         User loggedIn = (User) session.getAttribute("loggedIn");
 
         String idString = request.getParameter("id");
@@ -68,7 +69,7 @@ public class DeleteGameServlet extends BaseServlet {
             }
             request.setAttribute("user", loggedIn);
             request.setAttribute("games", games);
-            showJSP("games.jsp", request, response);
+            response.sendRedirect("Games");
         }
     }
 

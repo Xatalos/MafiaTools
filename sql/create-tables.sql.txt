@@ -16,15 +16,8 @@ CREATE TABLE player
 (
 PlayerID SERIAL PRIMARY KEY,
 PlayerName text NOT NULL,
-Meta text,
-UserID integer NOT NULL REFERENCES username(UserID)
-);
-
-CREATE TABLE participant
-(
-GameID integer NOT NULL REFERENCES game(GameID) ON DELETE CASCADE,
-PlayerID integer NOT NULL REFERENCES player(PlayerID) ON DELETE CASCADE,
 Points integer,
 Notes text,
-CONSTRAINT ParticipantID PRIMARY KEY (GameID, PlayerID)
+Rolenotes text,
+GameID integer NOT NULL REFERENCES game(GameID) ON DELETE CASCADE
 );

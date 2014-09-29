@@ -38,30 +38,32 @@ public class CreatePlayerServlet2 extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("playername");
-        String meta = request.getParameter("meta");
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         User loggedIn = (User) session.getAttribute("loggedIn");
+        String name = request.getParameter("playername");
+        String gameidString = request.getParameter("gameid");
+        int gameid = Integer.parseInt(gameidString);
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
             if (name == null || name.equals("")) {
                 setError("You didn't give a name!", request);
-                showJSP("createplayer.jsp", request, response);
+                showJSP("CreatePlayer?id=" + gameid, request, response);
             } else {
                 try {
-                    if (Player.isNameAvailable(name, loggedIn.getID()) == false) {
+                    if (Player.isNameAvailable(name, gameid) == false) {
                         setError("A player with that name already exists!", request);
-                        showJSP("createplayer.jsp", request, response);
+                        showJSP("CreatePlayer?id=" + gameid, request, response);
                     } else {
                         try {
-                            Player.createPlayer(name, meta, loggedIn.getID());
+                            Player.createPlayer(name, gameid);
                         } catch (SQLException ex) {
                             Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         request.setAttribute("user", loggedIn);
-                        showJSP("Players", request, response);
+                        response.sendRedirect("Game?id=" + gameid);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(CreatePlayerServlet2.class.getName()).log(Level.SEVERE, null, ex);

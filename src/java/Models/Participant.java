@@ -154,7 +154,7 @@ public class Participant {
                     }
                     participant.setNotes(results.getString("notes"));
                     participant.setName(player.getName());
-                    participant.setMeta(player.getMeta());
+                   // participant.setMeta(player.getMeta());
 
                     participants.add(participant);
                 } catch (SQLException ex) {
@@ -215,7 +215,7 @@ public class Participant {
                 }
                 participant.setNotes(results.getString("notes"));
                 participant.setName(player.getName());
-                participant.setMeta(player.getMeta());
+           //     participant.setMeta(player.getMeta());
             }
             return participant;
         } finally {

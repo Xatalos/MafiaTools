@@ -38,7 +38,7 @@ public class EditGameServlet extends BaseServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("gamename");
         String idString = request.getParameter("id");
         int id = Integer.parseInt(idString);
@@ -66,7 +66,7 @@ public class EditGameServlet extends BaseServlet {
                 Logger.getLogger(DeleteGameServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("game", game);
-            showJSP("Game?id=" + id, request, response);
+            response.sendRedirect("Game?id=" + id);
         }
     }
 

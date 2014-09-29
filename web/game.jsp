@@ -10,7 +10,6 @@
 <t:base pageTitle="MafiaTools Game">
     <ul class="nav nav-tabs">
         <li><a href="Games">Games</a></li>
-        <li><a href="Players">Players</a></li>
         <li><a href="Logout">Log Out</a></li>
     </ul>
     <div class="container">
@@ -20,28 +19,27 @@
             <input type="hidden" name="id" value="${game.id}">
             <a href="Games"><button type="button" class="btn btn-xs btn-default">Go Back</button></a>
             <button type="submit" class="btn btn-xs btn-default">Rename Game</button>
-            <a href="AddParticipant?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
-            <a href="CreatePlayer"><button type="button" class="btn btn-xs btn-default">Create New Player</button></a>
+            <a href="CreatePlayer?id=${game.id}"><button type="button" class="btn btn-xs btn-default">Add Player to the Game</button></a>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Player Name</th>
                         <th>Points</th>
-                        <th>Notes</th>
-                        <th>Meta Information</th>
-                        <th>Enter Notes</th>
+                        <th>Play Notes</th>
+                        <th>Role Notes</th>
+                        <th>Edit Points/Notes</th>
                         <th>Remove From Game</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="participant" items="${participants}">
+                    <c:forEach var="player" items="${players}">
                         <tr>
-                            <td><c:out value="${participant.name}"/></td>
-                            <td><c:out value="${participant.points}"/></td>
-                            <td><c:out value="${participant.notes}"/></td>
-                            <td><c:out value="${participant.meta}"/></td>
-                            <td><a href="EditParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Enter Notes</button></a></td>
-                            <td><a href="RemoveParticipant?gameid=${game.id}&playerid=${participant.playerid}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
+                            <td><c:out value="${player.name}"/></td>
+                            <td><c:out value="${player.points}"/></td>
+                            <td>${player.notes}</td>
+                            <td>${player.rolenotes}</td>
+                            <td><a href="Player?id=${player.id}&gameid=${game.id}"><button type="button" class="btn btn-xs btn-default">Edit Points/Notes</button></a></td>
+                            <td><a href="DeletePlayer?id=${player.id}&gameid=${game.id}"><button type="button" class="btn btn-xs btn-default">Remove From Game</button></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

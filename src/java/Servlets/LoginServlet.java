@@ -8,6 +8,8 @@ import Models.Game;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,8 +37,9 @@ public class LoginServlet extends BaseServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         HttpSession session = null;
+        request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("username");
         String password = request.getParameter("password");
         User user = null;
@@ -46,7 +49,7 @@ public class LoginServlet extends BaseServlet {
             showJSP("index.jsp", request, response);
             return;
         }
-        
+
         // sets the new default username as the previously entered username
         request.setAttribute("username", name);
 
@@ -60,15 +63,20 @@ public class LoginServlet extends BaseServlet {
         } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        // does the user by that name exist & is the password correct?
-        if (user != null && user.getPassword().equals(password)) {
-            session = request.getSession();
-            session.setAttribute("loggedIn", user);
-            response.sendRedirect("Games");
-        } else {
-            setError("Try again! Your username or password was incorrect.", request);
-            showJSP("index.jsp", request, response);
+        try {
+            // does the user by that name exist & is the password correct?
+            if (user != null && User.validatePassword(password, user.getPassword())) {
+                session = request.getSession();
+                session.setAttribute("loggedIn", user);
+                response.sendRedirect("Games");
+            } else {
+                setError("Try again! Your username or password was incorrect.", request);
+                showJSP("index.jsp", request, response);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

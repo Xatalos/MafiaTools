@@ -36,6 +36,7 @@ public class EditParticipantServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         String gameidString = request.getParameter("gameid");
         String playeridString = request.getParameter("playerid");
         int gameid = Integer.parseInt(gameidString);

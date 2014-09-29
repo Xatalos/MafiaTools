@@ -32,9 +32,13 @@ public class CreatePlayerServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
+        String gameidString = request.getParameter("id");
+        int gameid = Integer.parseInt(gameidString);
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
+            request.setAttribute("gameid", gameid);
             showJSP("createplayer.jsp", request, response);
         }
     }

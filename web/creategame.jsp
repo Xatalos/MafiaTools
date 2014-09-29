@@ -9,7 +9,6 @@
 <t:base pageTitle="MafiaTools Create Game">
     <ul class="nav nav-tabs">
         <li><a href="Games">Games</a></li>
-        <li><a href="Players">Players</a></li>
         <li><a href="Logout">Log Out</a></li>
     </ul>
     <div class="container">

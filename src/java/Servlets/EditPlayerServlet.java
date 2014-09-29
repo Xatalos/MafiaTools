@@ -5,6 +5,7 @@
 package Servlets;
 
 import Models.Game;
+import Models.Participant;
 import Models.Player;
 import Models.User;
 import java.io.IOException;
@@ -37,44 +38,82 @@ public class EditPlayerServlet extends BaseServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("playername");
-        String idString = request.getParameter("id");
-        String meta = request.getParameter("meta");
-        int id = Integer.parseInt(idString);
-        Player player = null;
 
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         User loggedIn = (User) session.getAttribute("loggedIn");
+
+        String gameidString = request.getParameter("gameid");
+        int gameid = Integer.parseInt(gameidString);
+        String name = request.getParameter("newname");
+        boolean namesuccess = true;
+
+        try {
+            if (Player.isNameAvailable(name, gameid) == false) {
+                name = request.getParameter("playername");
+                setError("That name is already taken!", request);
+                namesuccess = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (name == null || name.equals("")) {
+            name = request.getParameter("playername");
+        }
+        String idString = request.getParameter("playerid");
+        Player player = null;
+        String pointsString = request.getParameter("points");
+        String notes = request.getParameter("notes");
+        String rolenotes = request.getParameter("rolenotes");
+        int playerid = Integer.parseInt(idString);
+        int points = 0;
+        boolean pointsuccess = false;
 
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {
             try {
-                if (Player.getPlayer(id).getUserid() != loggedIn.getID()) {
+                if (Game.getGame(Player.getPlayer(playerid).getGameid()).getUserID() != loggedIn.getID()) {
                     setError("Stop trying to hack the database!", request);
                     showJSP("index.jsp", request, response);
-                } else {
-                    if (Player.isNameAvailable(name, loggedIn.getID()) == false) {
-                        setError("A player with that name already exists!", request);
-                        name = "";
-                        try {
-                            Player.editPlayer(id, name, meta);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        showJSP("Player?id=" + id, request, response);
-                    } else {
-                        try {
-                            Player.editPlayer(id, name, meta);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        showJSP("Player?id=" + id, request, response);
-                    }
+                    return;
                 }
-
             } catch (SQLException ex) {
                 Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                player = Player.getPlayer(playerid);
+                points = Integer.parseInt(pointsString);
+                pointsuccess = true;
+                Player.editPlayer(playerid, name, points, notes, rolenotes, true);
+                request.removeAttribute("errorMessage");
+            } catch (NumberFormatException ex) {
+                setError("You didn't enter a valid number for points!", request);
+                try {
+                    player = Player.getPlayer(playerid);
+                } catch (SQLException ex1) {
+                    Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                request.setAttribute("player", player);
+                request.setAttribute("gameid", gameid);
+            } catch (SQLException ex) {
+                Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (pointsuccess == false) {
+                try {
+                    Player.editPlayer(playerid, name, points, notes, rolenotes, false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(EditPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.setAttribute("player", player);
+                request.setAttribute("gameid", gameid);
+                response.sendRedirect("Player?gameid=" + gameid + "&id=" + playerid);
+            } else {
+                if (namesuccess == true) {
+                    response.sendRedirect("Game?id=" + gameid);
+                } else {
+                    response.sendRedirect("Player?gameid=" + gameid + "&id=" + playerid);
+                }
             }
         }
     }

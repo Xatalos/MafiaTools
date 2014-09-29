@@ -32,6 +32,7 @@ public class LogoutServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
+        request.setCharacterEncoding("UTF-8");
         logOut(session);
         showJSP("index.jsp", request, response);
     }

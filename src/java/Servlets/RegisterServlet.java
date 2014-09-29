@@ -7,6 +7,8 @@ package Servlets;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,9 +36,10 @@ public class RegisterServlet extends BaseServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("username");
         String password = request.getParameter("password");
+        String password2 = request.getParameter("password2");
         User user = null;
 
         if (name == null || name.equals("")) {
@@ -47,6 +50,12 @@ public class RegisterServlet extends BaseServlet {
 
         if (password == null || password.equals("")) {
             setError("You didn't give a password!", request);
+            showJSP("register.jsp", request, response);
+            return;
+        }
+        
+        if (!password.equals(password2)) {
+            setError("The repeated password doesn't match the original password!", request);
             showJSP("register.jsp", request, response);
             return;
         }
@@ -68,9 +77,13 @@ public class RegisterServlet extends BaseServlet {
             User.createUser(name, password);
         } catch (SQLException ex) {
             Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        setError("User '" + name + "' has been registered!", request);
+        setError("You have successfully registered the username " + name + "!", request);
         showJSP("index.jsp", request, response);
 
     }

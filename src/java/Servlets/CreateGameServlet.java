@@ -32,6 +32,7 @@ public class CreateGameServlet extends BaseServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
         if (!isLoggedIn(session)) {
             showJSP("index.jsp", request, response);
         } else {

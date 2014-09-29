@@ -23,6 +23,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="inputPassword2" class="col-md-2 control-label">Repeat password</label>
+                <div class="col-md-10">
+                    <input type="password" class="form-control" id="inputPassword1" name="password2" size="30" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="index.jsp"><button type="button" class="btn btn-default">Go Back</button></a>
                     <button type="submit" class="btn btn-default">Register</button>

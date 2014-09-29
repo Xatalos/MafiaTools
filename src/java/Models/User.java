@@ -61,7 +61,7 @@ public class User {
             rs = query.executeQuery();
 
             User user = null;
-
+            
             if (rs.next()) {
                 user = new User();
                 user.setID(Integer.parseInt(rs.getString("userid")));
@@ -141,7 +141,7 @@ public class User {
      *
      * @throws SQLException if an SQL error occurs
      */
-    public static void createUser(String name, String password) throws SQLException {
+    public static void createUser(String name, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
         String sql = null;
         Connection connection = null;
         PreparedStatement query = null;
@@ -150,9 +150,11 @@ public class User {
             sql = "INSERT INTO username(name, password) VALUES(?,?)";
             connection = Database.getConnection();
             query = connection.prepareStatement(sql);
+            
+            String hashedPassword = createHash(password);
 
             query.setString(1, name);
-            query.setString(2, password);
+            query.setString(2, hashedPassword);
 
             ids = query.executeQuery();
             ids.next();

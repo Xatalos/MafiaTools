@@ -112,6 +112,10 @@
         <servlet-name>EditParticipantServlet2</servlet-name>
         <servlet-class>Servlets.EditParticipantServlet2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>C9SetupServlet</servlet-name>
+        <servlet-class>Servlets.C9SetupServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YhteydenTestaaminen</servlet-name>
         <url-pattern>/YhteydenTestaaminen</url-pattern>
@@ -223,6 +227,10 @@
     <servlet-mapping>
         <servlet-name>EditParticipantServlet2</servlet-name>
         <url-pattern>/EditParticipant2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>C9SetupServlet</servlet-name>
+        <url-pattern>/C9Setup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
