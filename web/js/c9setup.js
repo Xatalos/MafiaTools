@@ -143,7 +143,9 @@ function generateroles() {
         roles.push("Mafia Goon");
         roles.push("Mafia Roleblocker");
         roles.push("Mafia Godfather");
-        roles.push("Serial Killer");
+        if (!document.rolesform.skbox.checked) {
+            roles.push("Serial Killer");
+        }
     } else if (tCount === 2) {
         roles.push("Mafia Goon");
         roles.push("Mafia Roleblocker");
@@ -152,7 +154,9 @@ function generateroles() {
         roles.push("Mafia Goon");
         roles.push("Mafia Goon");
         roles.push("Mafia Roleblocker");
-        roles.push("Serial Killer");
+        if (!document.rolesform.skbox.checked) {
+            roles.push("Serial Killer");
+        }
     } else if (tCount === 4) {
         roles.push("Mafia Goon");
         roles.push("Mafia Goon");
@@ -160,14 +164,18 @@ function generateroles() {
     } else if (tCount === 5) {
         roles.push("Mafia Goon");
         roles.push("Mafia Godfather");
-        roles.push("Serial Killer");
+        if (!document.rolesform.skbox.checked) {
+            roles.push("Serial Killer");
+        }
     } else if (tCount === 6) {
         roles.push("Mafia Goon");
         roles.push("Mafia Godfather");
     } else if (tCount === 7) {
         roles.push("Mafia Goon");
         roles.push("Mafia Godfather");
-        roles.push("Serial Killer");
+        if (!document.rolesform.skbox.checked) {
+            roles.push("Serial Killer");
+        }
     }
 
     while (roles.length < 13) {
